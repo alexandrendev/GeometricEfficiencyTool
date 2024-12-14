@@ -1,10 +1,11 @@
-package com.lafis.GeometricEfficiencyTool.entity.aperture;
+package com.lafis.GeometricEfficiencyTool.domain.aperture;
 
-import com.lafis.GeometricEfficiencyTool.entity.Coordinate;
-import com.lafis.GeometricEfficiencyTool.entity.Direction;
+import com.lafis.GeometricEfficiencyTool.domain.Coordinate;
+import com.lafis.GeometricEfficiencyTool.domain.Direction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 @Data
 @AllArgsConstructor
