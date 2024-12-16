@@ -1,0 +1,72 @@
+@startuml
+
+package domain{
+
+    package aperture {
+        interface Aperture {
+            boolean checkIfEmissionEscaped(Direction direction, Coordinate startPoint)
+        }
+        class CircularAperture{
+            -double radius;
+            -double height;
+
+            +boolean checkIfEmissionEscaped(Direction direction, Coordinate startPoint)
+        }
+
+        class RectangularAperture{
+            -double width;
+            -double height;
+
+            +boolean checkIfEmissionEscaped(Direction direction, Coordinate startPoint)
+        }
+    }
+
+    package source {
+        interface Source {
+            Coordinate randomizeEmissionPoint()
+        }
+
+        class CylindricalSource{
+            +Coordinate randomizeEmissionPoint()
+        }
+
+        class SphericalSource{
+            -double radius;
+
+            +Coordinate randomizeEmissionPoint()
+        }
+        class RectangularSource{
+            -double width;
+            -double height;
+
+            +Coordinate randomizeEmissionPoint()
+        }
+    }
+
+    CylindricalSource ..|> Source : Implements
+    SphericalSource ..|> Source : Implements
+    RectangularSource ..|> Source : Implements
+
+    CircularAperture ..|> Aperture : Implements
+    RectangularAperture ..|> Aperture : Implements
+
+        class GeometricContext{
+            -Aperture aperture;
+            -Source source;
+            -double height;
+        }
+
+        GeometricContext o-- Aperture : Contains
+        GeometricContext o-- Source : Contains
+
+        class Simulation{
+            -GeometricContext context;
+            -int emissions;
+            -int escaped;
+
+            void incrementEscaped()
+        }
+
+    Simulation o-- GeometricContext : Contains
+}
+@enduml
