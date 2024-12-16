@@ -1,8 +1,8 @@
 package com.lafis.GeometricEfficiencyTool.service;
 
-import com.lafis.GeometricEfficiencyTool.domain.GeometricContext;
-import com.lafis.GeometricEfficiencyTool.domain.aperture.Aperture;
-import com.lafis.GeometricEfficiencyTool.domain.source.Source;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.GeometricContext;
+import com.lafis.GeometricEfficiencyTool.database.domain.aperture.Aperture;
+import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

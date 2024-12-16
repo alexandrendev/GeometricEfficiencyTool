@@ -1,7 +1,7 @@
-package com.lafis.GeometricEfficiencyTool.domain;
+package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
-import com.lafis.GeometricEfficiencyTool.domain.aperture.Aperture;
-import com.lafis.GeometricEfficiencyTool.domain.source.Source;
+import com.lafis.GeometricEfficiencyTool.database.domain.aperture.Aperture;
+import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
 import lombok.Builder;
 import lombok.Data;
 

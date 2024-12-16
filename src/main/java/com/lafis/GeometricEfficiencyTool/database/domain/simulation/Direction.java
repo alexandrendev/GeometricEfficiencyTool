@@ -1,4 +1,4 @@
-package com.lafis.GeometricEfficiencyTool.domain;
+package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
 import lombok.Data;
 

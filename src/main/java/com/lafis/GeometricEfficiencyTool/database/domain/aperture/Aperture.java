@@ -1,9 +1,9 @@
-package com.lafis.GeometricEfficiencyTool.domain.aperture;
+package com.lafis.GeometricEfficiencyTool.database.domain.aperture;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.lafis.GeometricEfficiencyTool.domain.Coordinate;
-import com.lafis.GeometricEfficiencyTool.domain.Direction;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({

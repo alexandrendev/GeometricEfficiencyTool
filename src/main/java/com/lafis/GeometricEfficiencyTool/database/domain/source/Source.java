@@ -1,8 +1,8 @@
-package com.lafis.GeometricEfficiencyTool.domain.source;
+package com.lafis.GeometricEfficiencyTool.database.domain.source;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.lafis.GeometricEfficiencyTool.domain.Coordinate;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({

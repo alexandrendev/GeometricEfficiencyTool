@@ -1,7 +1,7 @@
 package com.lafis.GeometricEfficiencyTool.api.request;
 
-import com.lafis.GeometricEfficiencyTool.domain.aperture.Aperture;
-import com.lafis.GeometricEfficiencyTool.domain.source.Source;
+import com.lafis.GeometricEfficiencyTool.database.domain.aperture.Aperture;
+import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
 
 public class NewContextRequest {
     private String apertureType;

@@ -1,14 +1,17 @@
 package com.lafis.GeometricEfficiencyTool.service;
 
-import com.lafis.GeometricEfficiencyTool.domain.Coordinate;
-import com.lafis.GeometricEfficiencyTool.domain.Direction;
-import com.lafis.GeometricEfficiencyTool.domain.Simulation;
+import com.lafis.GeometricEfficiencyTool.database.domain.aperture.Aperture;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Simulation;
+import com.lafis.GeometricEfficiencyTool.database.repository.SimulationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 @Service
 public class SimulationService {
+    private SimulationRepository repository;
     private final Random rd = new Random();
 
     public void execute(Simulation simulation){
@@ -18,6 +21,21 @@ public class SimulationService {
 
             if(simulation.getContext().getAperture().checkIfEmissionEscaped(direction, emissionPoint)) simulation.incrementEscaped();
         }
+    }
+
+    public Simulation save(){
+        return repository.save(new Simulation());
+    }
+    public Simulation save(Simulation simulation){
+        return repository.save(simulation);
+    }
+
+    public Simulation setAperture(String simulationId, Aperture aperture){
+        Simulation simulation = repository.findById(simulationId).orElse(null);
+        if (simulation == null) return null;
+
+        simulation.getContext().setAperture(aperture);
+        return this.save(simulation);
     }
 
     public Direction emit(){

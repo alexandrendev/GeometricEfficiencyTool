@@ -1,8 +1,6 @@
-package com.lafis.GeometricEfficiencyTool.domain;
+package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 
 
 @Builder
