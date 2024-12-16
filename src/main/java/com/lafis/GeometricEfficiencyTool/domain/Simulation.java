@@ -1,12 +1,7 @@
 package com.lafis.GeometricEfficiencyTool.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Random;
 
 
 @AllArgsConstructor

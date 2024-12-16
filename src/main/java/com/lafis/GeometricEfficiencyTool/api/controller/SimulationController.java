@@ -3,7 +3,6 @@ package com.lafis.GeometricEfficiencyTool.api.controller;
 import com.lafis.GeometricEfficiencyTool.api.request.NewContextRequest;
 import com.lafis.GeometricEfficiencyTool.domain.GeometricContext;
 import com.lafis.GeometricEfficiencyTool.domain.Simulation;
-import com.lafis.GeometricEfficiencyTool.domain.source.Source;
 import com.lafis.GeometricEfficiencyTool.service.GeometricContextFactory;
 import com.lafis.GeometricEfficiencyTool.service.SimulationService;
 import org.springframework.beans.factory.annotation.Autowired;

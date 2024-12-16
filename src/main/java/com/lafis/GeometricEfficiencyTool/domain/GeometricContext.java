@@ -2,10 +2,8 @@ package com.lafis.GeometricEfficiencyTool.domain;
 
 import com.lafis.GeometricEfficiencyTool.domain.aperture.Aperture;
 import com.lafis.GeometricEfficiencyTool.domain.source.Source;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Data
 @Builder
