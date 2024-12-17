@@ -10,11 +10,13 @@ import lombok.Data;
 public class GeometricContext {
     private Aperture aperture;
     private Source source;
-    private double height;
 
     public GeometricContext(Aperture aperture, Source source, double height) {
         this.aperture = aperture;
         this.source = source;
+    }
+
+    public GeometricContext() {
     }
 
     public Aperture getAperture() {
@@ -25,7 +27,12 @@ public class GeometricContext {
         return source;
     }
 
-    public double getHeight() {
-        return height;
+
+    public void setAperture(Aperture aperture) {
+        this.aperture = aperture;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
     }
 }

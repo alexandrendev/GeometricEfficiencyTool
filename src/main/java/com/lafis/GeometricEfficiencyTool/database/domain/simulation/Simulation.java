@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Document(collection = "simulation")
 public class Simulation {
     @Id
@@ -54,5 +52,15 @@ public class Simulation {
 
     public void setEscaped(int escaped) {
         this.escaped = escaped;
+    }
+
+    public Simulation(String id, GeometricContext context, int emissions, int escaped) {
+        this.id = id;
+        this.context = context;
+        this.emissions = emissions;
+        this.escaped = escaped;
+    }
+
+    public Simulation() {
     }
 }

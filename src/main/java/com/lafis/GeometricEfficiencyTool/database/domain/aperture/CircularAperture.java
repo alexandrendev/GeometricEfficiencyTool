@@ -2,12 +2,8 @@ package com.lafis.GeometricEfficiencyTool.database.domain.aperture;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 
-@Data
-@AllArgsConstructor
 @Builder
 public class CircularAperture implements Aperture {
     private double radius;
@@ -20,5 +16,18 @@ public class CircularAperture implements Aperture {
             return coordinate.getY() >= -this.radius && coordinate.getY() <= this.radius;
         }
         return false;
+    }
+
+    public CircularAperture(double radius, double height) {
+        this.radius = radius;
+        this.height = height;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public double getHeight() {
+        return height;
     }
 }
