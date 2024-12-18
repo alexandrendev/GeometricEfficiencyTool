@@ -7,6 +7,7 @@ import com.lafis.GeometricEfficiencyTool.database.domain.simulation.GeometricCon
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Simulation;
 import com.lafis.GeometricEfficiencyTool.database.repository.SimulationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -16,6 +17,7 @@ public class SimulationService {
     private SimulationRepository repository;
     private final Random rd = new Random();
 
+    @Async
     public void execute(Simulation simulation){
         for (int i = 0; i < simulation.getEmissions(); i++){
             Coordinate emissionPoint = simulation.getContext().getSource().randomizeEmitionPoint();

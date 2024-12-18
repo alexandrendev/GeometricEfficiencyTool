@@ -3,7 +3,6 @@ package com.lafis.GeometricEfficiencyTool.database.domain.aperture;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
 import lombok.Builder;
-import lombok.Data;
 
 @Builder
 public class RectangularAperture implements Aperture {
