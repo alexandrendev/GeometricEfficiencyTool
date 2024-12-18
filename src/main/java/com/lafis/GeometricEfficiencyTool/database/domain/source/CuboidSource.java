@@ -2,20 +2,20 @@ package com.lafis.GeometricEfficiencyTool.database.domain.source;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 
-public class CylindricalSource extends Source{
+public class CuboidSource extends Source {
     private double height;
-    private double radius;
+    private double width;
 
 
+    @Override
     public Coordinate randomizeEmitionPoint() {
         return null;
     }
 
-
-    public CylindricalSource(double initialHeight, double finalHeight, double increment, double height, double radius) {
-        super(initialHeight, finalHeight, increment);
+    public CuboidSource(double height, double width, double initialHeight, double finalHeight, double increment) {
+        super(initialHeight,finalHeight,increment);
         this.height = height;
-        this.radius = radius;
+        this.width = width;
     }
 
     public double getHeight() {
@@ -26,11 +26,11 @@ public class CylindricalSource extends Source{
         this.height = height;
     }
 
-    public double getRadius() {
-        return radius;
+    public double getWidth() {
+        return width;
     }
 
-    public void setRadius(double radius) {
-        this.radius = radius;
+    public void setWidth(double width) {
+        this.width = width;
     }
 }

@@ -5,6 +5,7 @@ import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.GeometricContext;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Simulation;
+import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
 import com.lafis.GeometricEfficiencyTool.database.repository.SimulationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -28,7 +29,9 @@ public class SimulationService {
     }
 
     public Simulation save(){
-        return repository.save(new Simulation());
+        Simulation simulation = new Simulation();
+        simulation.setContext(new GeometricContext());
+        return repository.save(simulation);
     }
     public Simulation save(Simulation simulation){
         return repository.save(simulation);
@@ -37,8 +40,14 @@ public class SimulationService {
     public Simulation setAperture(String simulationId, Aperture aperture){
         Simulation simulation = repository.findById(simulationId).orElse(null);
         if (simulation == null) return null;
-        simulation.setContext(new GeometricContext());
         simulation.getContext().setAperture(aperture);
+        return this.save(simulation);
+    }
+    
+    public Simulation setSource(String simulationId, Source source){
+        Simulation simulation = repository.findById(simulationId).orElse(null);
+        if (simulation == null) return null;
+        simulation.getContext().setSource(source);
         return this.save(simulation);
     }
 

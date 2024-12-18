@@ -1,7 +1,5 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,14 +15,6 @@ public class Simulation {
         escaped++;
     }
 
-    public GeometricContext getContext() {
-        return context;
-    }
-
-    public Simulation(GeometricContext context, int emissions) {
-        this.context = context;
-        this.emissions = emissions;
-    }
 
     public String getId() {
         return id;
@@ -32,6 +22,10 @@ public class Simulation {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public GeometricContext getContext() {
+        return context;
     }
 
     public void setContext(GeometricContext context) {
@@ -52,6 +46,11 @@ public class Simulation {
 
     public void setEscaped(int escaped) {
         this.escaped = escaped;
+    }
+
+    public Simulation(GeometricContext context, int emissions) {
+        this.context = context;
+        this.emissions = emissions;
     }
 
     public Simulation(String id, GeometricContext context, int emissions, int escaped) {

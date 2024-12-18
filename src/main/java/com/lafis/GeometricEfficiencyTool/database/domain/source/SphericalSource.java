@@ -3,17 +3,24 @@ package com.lafis.GeometricEfficiencyTool.database.domain.source;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 
 
-public abstract class Source {
-    protected double initialHeight;
-    protected double finalHeight;
-    protected double increment;
-    public abstract Coordinate randomizeEmitionPoint();
-//    void incrementHeight(double increment);
+public class SphericalSource extends Source{
+    private double radius;
 
-    public Source(double initialHeight, double finalHeight, double increment) {
-        this.initialHeight = initialHeight;
-        this.finalHeight = finalHeight;
-        this.increment = increment;
+    public Coordinate randomizeEmitionPoint() {
+        return null;
+    }
+
+    public SphericalSource(double radius, double initialHeight, double finalHeight, double increment) {
+        super(initialHeight, finalHeight, increment);
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
     }
 
     public double getInitialHeight() {
