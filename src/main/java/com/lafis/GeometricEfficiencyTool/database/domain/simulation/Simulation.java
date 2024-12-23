@@ -10,6 +10,7 @@ public class Simulation {
     private GeometricContext context;
     private int emissions;
     private int escaped = 0;
+    private SimulationStatus status;
 
     public void incrementEscaped(){
         escaped++;
@@ -48,9 +49,18 @@ public class Simulation {
         this.escaped = escaped;
     }
 
+    public SimulationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SimulationStatus status) {
+        this.status = status;
+    }
+
     public Simulation(GeometricContext context, int emissions) {
         this.context = context;
         this.emissions = emissions;
+        this.status = SimulationStatus.CREATED;
     }
 
     public Simulation(String id, GeometricContext context, int emissions, int escaped) {
@@ -58,8 +68,10 @@ public class Simulation {
         this.context = context;
         this.emissions = emissions;
         this.escaped = escaped;
+        this.status = SimulationStatus.CREATED;
     }
 
     public Simulation() {
+        this.status = SimulationStatus.CREATED;
     }
 }
