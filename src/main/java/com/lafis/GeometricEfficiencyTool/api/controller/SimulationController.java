@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/simulation")
 public class SimulationController {
@@ -40,6 +42,14 @@ public class SimulationController {
 
         service.execute(simulation);
         return true;
+    }
+
+    @PostMapping("/start")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Simulation> startSimulation(@RequestBody String simulationId){
+        Simulation simulation = this.service.findById(simulationId);
+        this.service.execute(simulation);
+        return ResponseEntity.ok(simulation);
     }
 
     @PostMapping("/new")
@@ -97,5 +107,11 @@ public class SimulationController {
                 request.increment()
         );
         return service.setSource(request.simulationId(), source);
+    }
+
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Simulation> findAll(){
+        return service.findAll();
     }
 }

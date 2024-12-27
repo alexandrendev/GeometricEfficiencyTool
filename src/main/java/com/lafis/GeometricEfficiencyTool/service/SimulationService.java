@@ -1,16 +1,14 @@
 package com.lafis.GeometricEfficiencyTool.service;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.aperture.Aperture;
-import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
-import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
-import com.lafis.GeometricEfficiencyTool.database.domain.simulation.GeometricContext;
-import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Simulation;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.*;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
 import com.lafis.GeometricEfficiencyTool.database.repository.SimulationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -20,6 +18,7 @@ public class SimulationService {
 
     @Async
     public void execute(Simulation simulation){
+        simulation.setStatus(SimulationStatus.RUNNING);
         for (int i = 0; i < simulation.getEmissions(); i++){
             Coordinate emissionPoint = simulation.getContext().getSource().randomizeEmitionPoint();
             Direction direction = emit();
@@ -58,6 +57,13 @@ public class SimulationService {
         return new Direction(theta, phi);
     }
 
+    public Simulation findById(String simulationId){
+        return repository.findById(simulationId).orElse(null);
+    }
+
+    public List<Simulation> findAll(){
+        return repository.findAll();
+    }
     @Autowired
     public SimulationService(SimulationRepository repository) {
         this.repository = repository;

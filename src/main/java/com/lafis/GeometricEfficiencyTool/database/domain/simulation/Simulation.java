@@ -15,8 +15,7 @@ public class Simulation {
     public void incrementEscaped(){
         escaped++;
     }
-
-
+    
     public String getId() {
         return id;
     }
