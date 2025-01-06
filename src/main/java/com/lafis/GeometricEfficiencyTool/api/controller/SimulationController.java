@@ -3,8 +3,10 @@ package com.lafis.GeometricEfficiencyTool.api.controller;
 import com.lafis.GeometricEfficiencyTool.api.request.*;
 import com.lafis.GeometricEfficiencyTool.database.domain.aperture.CircularAperture;
 import com.lafis.GeometricEfficiencyTool.database.domain.aperture.RectangularAperture;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.ApertureType;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.GeometricContext;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Simulation;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.SourceType;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.CuboidSource;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.CylindricalSource;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
@@ -62,14 +64,14 @@ public class SimulationController {
     @ResponseStatus(HttpStatus.OK)
     public Simulation setRectangularAperture(@RequestBody SetRectangularApertureRequest request){
         RectangularAperture aperture = new RectangularAperture(request.height(), request.width(), request.apertureHeight());
-        return service.setAperture(request.simulationId(), aperture);
+        return service.setAperture(request.simulationId(), aperture, ApertureType.RECTANGULAR);
     }
 
     @PatchMapping("/circular")
     @ResponseStatus(HttpStatus.OK)
     public Simulation setCircularAperture(@RequestBody SetCircularApertureRequest request){
         CircularAperture aperture = new CircularAperture(request.radius(), request.height());
-        return service.setAperture(request.simulationId(), aperture);
+        return service.setAperture(request.simulationId(), aperture, ApertureType.CIRCULAR);
     }
 
     @PatchMapping("/source/cylindrical")
@@ -82,7 +84,7 @@ public class SimulationController {
                 request.sourceHeight(),
                 request.sourceRadius()
         );
-        return service.setSource(request.simulationId(), source);
+        return service.setSource(request.simulationId(), source, SourceType.CYLINDRICAL);
     }
 
     @PatchMapping("/source/cuboid")
@@ -95,7 +97,7 @@ public class SimulationController {
                 request.sourceWidth(),
                 request.increment()
         );
-        return service.setSource(request.simulationId(), source);
+        return service.setSource(request.simulationId(), source, SourceType.CUBOID);
     }
 
     @PatchMapping("/source/spherical")
@@ -106,7 +108,7 @@ public class SimulationController {
                 request.finalHeight(),
                 request.increment()
         );
-        return service.setSource(request.simulationId(), source);
+        return service.setSource(request.simulationId(), source, SourceType.SPHERICAL);
     }
 
     @GetMapping("/all")

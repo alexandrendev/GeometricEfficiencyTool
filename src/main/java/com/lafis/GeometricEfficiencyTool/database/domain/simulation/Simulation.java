@@ -11,6 +11,8 @@ public class Simulation {
     private int emissions;
     private int escaped = 0;
     private SimulationStatus status;
+    private ApertureType apertureType;
+    private SourceType sourceType;
 
     public void incrementEscaped(){
         escaped++;
@@ -52,8 +54,24 @@ public class Simulation {
         return status;
     }
 
+    public ApertureType getApertureType() {
+        return apertureType;
+    }
+
+    public SourceType getSourceType() {
+        return sourceType;
+    }
+
     public void setStatus(SimulationStatus status) {
         this.status = status;
+    }
+
+    public void setApertureType(ApertureType apertureType) {
+        this.apertureType = apertureType;
+    }
+
+    public void setSourceType(SourceType sourceType) {
+        this.sourceType = sourceType;
     }
 
     public Simulation(GeometricContext context, int emissions) {
