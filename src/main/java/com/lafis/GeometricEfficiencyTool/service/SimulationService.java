@@ -34,6 +34,7 @@ public class SimulationService {
                 simulation.incrementEscaped();
             }
         }
+        simulation.setStatus(SimulationStatus.FINISHED);
     }
 
     private Coordinate generateEmissionPoint(Simulation simulation) {
@@ -55,8 +56,13 @@ public class SimulationService {
 //        }
 //    }
 
-    public Simulation save(){
+    public Simulation save(int emissions, double increment, double finalHeight){
         Simulation simulation = new Simulation();
+
+        simulation.setEmissions(emissions);
+        simulation.setIncrement(increment);
+        simulation.setFinalHeight(finalHeight);
+
         simulation.setContext(new GeometricContext());
         return repository.save(simulation);
     }

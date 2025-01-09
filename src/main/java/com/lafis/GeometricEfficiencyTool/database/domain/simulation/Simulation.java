@@ -10,6 +10,8 @@ public class Simulation {
     private GeometricContext context;
     private int emissions;
     private int escaped = 0;
+    private double increment;
+    private  double finalHeight;
     private SimulationStatus status;
     private ApertureType apertureType;
     private SourceType sourceType;
@@ -17,7 +19,24 @@ public class Simulation {
     public void incrementEscaped(){
         escaped++;
     }
-    
+
+
+    public double getIncrement() {
+        return increment;
+    }
+
+    public void setIncrement(double increment) {
+        this.increment = increment;
+    }
+
+    public double getFinalHeight() {
+        return finalHeight;
+    }
+
+    public void setFinalHeight(double finalHeight) {
+        this.finalHeight = finalHeight;
+    }
+
     public String getId() {
         return id;
     }
