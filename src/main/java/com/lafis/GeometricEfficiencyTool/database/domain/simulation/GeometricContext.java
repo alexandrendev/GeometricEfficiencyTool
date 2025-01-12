@@ -2,11 +2,7 @@ package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.aperture.Aperture;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
-import lombok.Builder;
-import lombok.Data;
 
-@Data
-@Builder
 public class GeometricContext {
     private Aperture aperture;
     private Source source;

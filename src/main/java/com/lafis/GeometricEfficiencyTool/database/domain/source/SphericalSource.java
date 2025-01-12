@@ -10,8 +10,7 @@ public class SphericalSource extends Source{
         return null;
     }
 
-    public SphericalSource(double radius, double initialHeight, double finalHeight, double increment) {
-        super(initialHeight, finalHeight, increment);
+    public SphericalSource(double radius) {
         this.radius = radius;
     }
 
@@ -21,29 +20,5 @@ public class SphericalSource extends Source{
 
     public void setRadius(double radius) {
         this.radius = radius;
-    }
-
-    public double getInitialHeight() {
-        return initialHeight;
-    }
-
-    public void setInitialHeight(double initialHeight) {
-        this.initialHeight = initialHeight;
-    }
-
-    public double getFinalHeight() {
-        return finalHeight;
-    }
-
-    public void setFinalHeight(double finalHeight) {
-        this.finalHeight = finalHeight;
-    }
-
-    public double getIncrement() {
-        return increment;
-    }
-
-    public void setIncrement(int increment) {
-        this.increment = increment;
     }
 }

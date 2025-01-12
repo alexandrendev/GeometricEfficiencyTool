@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -17,8 +18,9 @@ public class SimulationService {
     private final Random rd = new Random();
 
 
-    @Async
-    public void execute(Simulation simulation) {
+
+    @Async("simulationExecutor")
+    public void execute(Simulation simulation, Double height) {
         if (simulation == null || simulation.getContext() == null || simulation.getContext().getSource() == null) {
             throw new IllegalArgumentException("Simulation or its context cannot be null");
         }
@@ -27,41 +29,34 @@ public class SimulationService {
         int emissions = simulation.getEmissions();
 
         for (int i = 0; i < emissions; i++) {
-            Coordinate emissionPoint = generateEmissionPoint(simulation);
+            Coordinate emissionPoint = generateEmissionPoint(simulation, height);
             Direction direction = emit();
 
             if (hasEmissionEscaped(simulation, emissionPoint, direction)) {
-                simulation.incrementEscaped();
+//                simulation.incrementEscaped();
             }
         }
         simulation.setStatus(SimulationStatus.FINISHED);
     }
 
-    private Coordinate generateEmissionPoint(Simulation simulation) {
-        return simulation.getContext().getSource().randomizeEmitionPoint();
+    private Coordinate generateEmissionPoint(Simulation simulation, Double height) {
+        return simulation.getContext().getSource().randomizeEmitionPoint(height);
     }
 
     private boolean hasEmissionEscaped(Simulation simulation, Coordinate point, Direction direction) {
         return simulation.getContext().getAperture().checkIfEmissionEscaped(direction, point);
     }
 
-//    @Async
-//    public void execute(Simulation simulation){
-//        simulation.setStatus(SimulationStatus.RUNNING);
-//        int emissions = simulation.getEmissions();
-//        for (int i = 0; i < emissions; i++){
-//            Coordinate emissionPoint = simulation.getContext().getSource().randomizeEmitionPoint();
-//            Direction direction = emit();
-//            if(simulation.getContext().getAperture().checkIfEmissionEscaped(direction, emissionPoint)) simulation.incrementEscaped();
-//        }
-//    }
-
     public Simulation save(int emissions, double increment, double finalHeight){
         Simulation simulation = new Simulation();
 
+        List<Height> heights = new ArrayList<>();
+        for (double height = 0; height <= finalHeight; height += increment) {
+            heights.add(new Height(height, 0));
+        }
+
         simulation.setEmissions(emissions);
-        simulation.setIncrement(increment);
-        simulation.setFinalHeight(finalHeight);
+        simulation.setHeights(heights);
 
         simulation.setContext(new GeometricContext());
         return repository.save(simulation);

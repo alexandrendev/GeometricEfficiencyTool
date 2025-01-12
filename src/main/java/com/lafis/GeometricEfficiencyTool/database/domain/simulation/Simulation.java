@@ -1,7 +1,10 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Document(collection = "simulation")
 public class Simulation {
@@ -9,32 +12,18 @@ public class Simulation {
     private String id;
     private GeometricContext context;
     private int emissions;
-    private int escaped = 0;
-    private double increment;
-    private  double finalHeight;
+    private List<Height> heights;
+
+
     private SimulationStatus status;
     private ApertureType apertureType;
     private SourceType sourceType;
 
-    public void incrementEscaped(){
-        escaped++;
+    public List<Height> getHeights() {
+        return heights;
     }
-
-
-    public double getIncrement() {
-        return increment;
-    }
-
-    public void setIncrement(double increment) {
-        this.increment = increment;
-    }
-
-    public double getFinalHeight() {
-        return finalHeight;
-    }
-
-    public void setFinalHeight(double finalHeight) {
-        this.finalHeight = finalHeight;
+    public void setHeights(List<Height> heights) {
+        this.heights = heights;
     }
 
     public String getId() {
@@ -59,14 +48,6 @@ public class Simulation {
 
     public void setEmissions(int emissions) {
         this.emissions = emissions;
-    }
-
-    public int getEscaped() {
-        return escaped;
-    }
-
-    public void setEscaped(int escaped) {
-        this.escaped = escaped;
     }
 
     public SimulationStatus getStatus() {
@@ -99,11 +80,10 @@ public class Simulation {
         this.status = SimulationStatus.CREATED;
     }
 
-    public Simulation(String id, GeometricContext context, int emissions, int escaped) {
+    public Simulation(String id, GeometricContext context, int emissions) {
         this.id = id;
         this.context = context;
         this.emissions = emissions;
-        this.escaped = escaped;
         this.status = SimulationStatus.CREATED;
     }
 

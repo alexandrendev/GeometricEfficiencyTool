@@ -2,18 +2,26 @@ package com.lafis.GeometricEfficiencyTool.database.domain.source;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 
+import java.util.Random;
+
 public class CylindricalSource extends Source{
     private double height;
     private double radius;
+    private final Random random = new Random();
 
+    @Override
+    public Coordinate randomizeEmitionPoint(Double height) {
+        double r = Math.sqrt(random.nextDouble()) * radius;
+        double theta = random.nextDouble() * 2 * Math.PI;
+        double x = r * Math.cos(theta);
+        double y = r * Math.sin(theta);
 
-    public Coordinate randomizeEmitionPoint() {
-        return null;
+        double z = (height != null) ? height : random.nextDouble() * this.height;
+
+        return new Coordinate(x, y, z);
     }
 
-
-    public CylindricalSource(double initialHeight, double finalHeight, double increment, double height, double radius) {
-        super(initialHeight, finalHeight, increment);
+    public CylindricalSource(double height, double radius) {
         this.height = height;
         this.radius = radius;
     }

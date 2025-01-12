@@ -4,53 +4,34 @@ import com.lafis.GeometricEfficiencyTool.api.request.*;
 import com.lafis.GeometricEfficiencyTool.database.domain.aperture.CircularAperture;
 import com.lafis.GeometricEfficiencyTool.database.domain.aperture.RectangularAperture;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.ApertureType;
-import com.lafis.GeometricEfficiencyTool.database.domain.simulation.GeometricContext;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Simulation;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.SourceType;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.CuboidSource;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.CylindricalSource;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.SphericalSource;
-import com.lafis.GeometricEfficiencyTool.service.GeometricContextFactory;
 import com.lafis.GeometricEfficiencyTool.service.SimulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/simulation")
 public class SimulationController {
-
-    private final GeometricContextFactory factory;
     private final SimulationService service;
 
     @Autowired
-    public SimulationController(GeometricContextFactory factory, SimulationService service) {
-        this.factory = factory;
+    public SimulationController(SimulationService service) {
         this.service = service;
-    }
-
-    @PostMapping
-    public boolean simulateContext(@RequestBody NewContextRequest request){
-        GeometricContext context = factory.createContext(
-                request.getAperture(),
-                request.getSource(),
-                request.getHeight()
-        );
-        Simulation simulation = new Simulation(context, request.getEmissions());
-
-        service.execute(simulation);
-        return true;
     }
 
     @PostMapping("/start")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Simulation> startSimulation(@RequestBody String simulationId){
         Simulation simulation = this.service.findById(simulationId);
-        this.service.execute(simulation);
+//        this.service.execute(simulation);
         return ResponseEntity.ok(simulation);
     }
 
@@ -78,9 +59,6 @@ public class SimulationController {
     @ResponseStatus(HttpStatus.OK)
     public Simulation setCylindricalSource(@RequestBody SetCylindricalSourceRequest request){
         Source source = new CylindricalSource(
-                request.initialHeight(),
-                request.finalHeight(),
-                request.increment(),
                 request.sourceHeight(),
                 request.sourceRadius()
         );
@@ -93,9 +71,7 @@ public class SimulationController {
         Source source = new CuboidSource(
                 request.sourceHeight(),
                 request.sourceWidth(),
-                request.initialHeight(),
-                request.sourceWidth(),
-                request.increment()
+                request.sourceWidth()
         );
         return service.setSource(request.simulationId(), source, SourceType.CUBOID);
     }
@@ -103,10 +79,7 @@ public class SimulationController {
     @PatchMapping("/source/spherical")
     public Simulation setSphericalSource(@RequestBody SetSphericalSourceRequest request){
         Source source = new SphericalSource(
-                request.sourceRadius(),
-                request.initialHeight(),
-                request.finalHeight(),
-                request.increment()
+                request.sourceRadius()
         );
         return service.setSource(request.simulationId(), source, SourceType.SPHERICAL);
     }

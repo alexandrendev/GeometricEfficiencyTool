@@ -5,17 +5,16 @@ import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 public class CuboidSource extends Source {
     private double height;
     private double width;
+    private double depht;
 
-
-    @Override
-    public Coordinate randomizeEmitionPoint() {
+    public Coordinate randomizeEmitionPoint(Double height) {
         return null;
     }
 
-    public CuboidSource(double height, double width, double initialHeight, double finalHeight, double increment) {
-        super(initialHeight,finalHeight,increment);
+    public CuboidSource(double height, double width, double depht) {
         this.height = height;
         this.width = width;
+        this.depht = depht;
     }
 
     public double getHeight() {

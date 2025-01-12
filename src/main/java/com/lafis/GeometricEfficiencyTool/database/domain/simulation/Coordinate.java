@@ -1,15 +1,16 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
-import lombok.Builder;
-
-
-@Builder
 public class Coordinate {
     private double x;
     private double y;
     private double z;
 
 
+    public Coordinate(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
     public Coordinate(double x, double y) {
         this.x = x;
         this.y = y;

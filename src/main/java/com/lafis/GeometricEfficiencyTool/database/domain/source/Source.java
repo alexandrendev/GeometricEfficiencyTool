@@ -4,39 +4,11 @@ import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 
 
 public abstract class Source {
-    protected double initialHeight;
-    protected double finalHeight;
-    protected double increment;
-    public abstract Coordinate randomizeEmitionPoint();
-//    void incrementHeight(double increment);
+    public abstract Coordinate randomizeEmitionPoint(Double height);
+//    public abstract void setHeight(double height);
 
-    public Source(double initialHeight, double finalHeight, double increment) {
-        this.initialHeight = initialHeight;
-        this.finalHeight = finalHeight;
-        this.increment = increment;
+    public Source() {
     }
 
-    public double getInitialHeight() {
-        return initialHeight;
-    }
 
-    public void setInitialHeight(double initialHeight) {
-        this.initialHeight = initialHeight;
-    }
-
-    public double getFinalHeight() {
-        return finalHeight;
-    }
-
-    public void setFinalHeight(double finalHeight) {
-        this.finalHeight = finalHeight;
-    }
-
-    public double getIncrement() {
-        return increment;
-    }
-
-    public void setIncrement(int increment) {
-        this.increment = increment;
-    }
 }
