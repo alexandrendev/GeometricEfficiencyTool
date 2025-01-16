@@ -2,7 +2,7 @@ package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
 public class Height {
     double height;
-    int escaped;
+    int escaped = 0;
 
     public Height(double height, int escaped) {
         this.height = height;
@@ -23,5 +23,9 @@ public class Height {
 
     public void setEscaped(int escaped) {
         this.escaped = escaped;
+    }
+
+    public void incrementEscaped() {
+        escaped++;
     }
 }

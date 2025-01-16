@@ -1,7 +1,5 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.aperture;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
 
@@ -10,6 +8,17 @@ import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
 //        @JsonSubTypes.Type(value = CircularAperture.class, name = "circular"),
 //        @JsonSubTypes.Type(value = RectangularAperture.class, name = "rectangular")
 //})
-public interface Aperture {
-    boolean checkIfEmissionEscaped(Direction direction, Coordinate startPoint);
+public abstract class Aperture {
+    double height;
+
+
+    public abstract boolean checkIfEmissionEscaped(Direction direction, Coordinate startPoint);
+
+    public Aperture(double height) {
+        this.height = height;
+    }
+
+    public double getHeight() {
+        return height;
+    }
 }

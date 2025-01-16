@@ -6,7 +6,8 @@ import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 public class SphericalSource extends Source{
     private double radius;
 
-    public Coordinate randomizeEmitionPoint() {
+    @Override
+    public Coordinate randomizeEmitionPoint(Double height) {
         return null;
     }
 

@@ -4,6 +4,7 @@ import com.lafis.GeometricEfficiencyTool.database.domain.aperture.Aperture;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.*;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
 import com.lafis.GeometricEfficiencyTool.database.repository.SimulationRepository;
+import com.lafis.GeometricEfficiencyTool.infra.random.RandomAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -15,32 +16,22 @@ import java.util.Random;
 @Service
 public class SimulationService {
     private SimulationRepository repository;
-    private final Random rd = new Random();
+    private final RandomAdapter rd;
 
+    public void execute (Simulation simulation) {
 
+        for (Height height : simulation.getHeights()) {
+            for(int i = 0; i < simulation.getEmissions(); i++){
+                Coordinate startPoint = simulation.getContext().getSource().randomizeEmitionPoint(height.getHeight());
+                Direction direction = emit();
 
-    @Async("simulationExecutor")
-    public void execute(Simulation simulation, Double height) {
-        if (simulation == null || simulation.getContext() == null || simulation.getContext().getSource() == null) {
-            throw new IllegalArgumentException("Simulation or its context cannot be null");
-        }
-
-        simulation.setStatus(SimulationStatus.RUNNING);
-        int emissions = simulation.getEmissions();
-
-        for (int i = 0; i < emissions; i++) {
-            Coordinate emissionPoint = generateEmissionPoint(simulation, height);
-            Direction direction = emit();
-
-            if (hasEmissionEscaped(simulation, emissionPoint, direction)) {
-//                simulation.incrementEscaped();
+                if(simulation.getContext().getAperture().checkIfEmissionEscaped(direction, startPoint)){
+                    height.incrementEscaped();
+                }
             }
         }
-        simulation.setStatus(SimulationStatus.FINISHED);
-    }
 
-    private Coordinate generateEmissionPoint(Simulation simulation, Double height) {
-        return simulation.getContext().getSource().randomizeEmitionPoint(height);
+        save(simulation);
     }
 
     private boolean hasEmissionEscaped(Simulation simulation, Coordinate point, Direction direction) {
@@ -81,7 +72,7 @@ public class SimulationService {
         return this.save(simulation);
     }
 
-    public Direction emit(){
+    public Direction emit(Coordinate startPoint, double height){
         double theta = rd.nextDouble() * Math.PI;
         double phi = rd.nextDouble() * 2 * Math.PI;
 
@@ -96,7 +87,8 @@ public class SimulationService {
         return repository.findAll();
     }
     @Autowired
-    public SimulationService(SimulationRepository repository) {
+    public SimulationService(SimulationRepository repository, RandomAdapter randomAdapter) {
         this.repository = repository;
+        this.rd = randomAdapter;
     }
 }

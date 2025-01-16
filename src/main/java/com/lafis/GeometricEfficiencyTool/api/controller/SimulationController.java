@@ -21,19 +21,30 @@ import java.util.List;
 @RequestMapping("/simulation")
 public class SimulationController {
     private final SimulationService service;
-
-    @Autowired
-    public SimulationController(SimulationService service) {
-        this.service = service;
-    }
+    private CylindricalSource cylindricalSource;
+    private SphericalSource sphericalSource;
+    private CuboidSource cuboidSource;
 
     @PostMapping("/start")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Simulation> startSimulation(@RequestBody String simulationId){
+    public ResponseEntity<Simulation> startSimulation(@RequestParam String simulationId){
         Simulation simulation = this.service.findById(simulationId);
-//        this.service.execute(simulation);
+        this.service.execute(simulation);
         return ResponseEntity.ok(simulation);
     }
+
+    @Autowired
+    public SimulationController(SimulationService service, CylindricalSource cylindricalSource) {
+        this.service = service;
+        this.cylindricalSource = cylindricalSource;
+    }
+
+    @GetMapping("/id")
+    public ResponseEntity<Simulation> findById(@RequestParam String simulationId){
+        Simulation simulation = this.service.findById(simulationId);
+        return ResponseEntity.ok(simulation);
+    }
+
 
     @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,11 +69,9 @@ public class SimulationController {
     @PatchMapping("/source/cylindrical")
     @ResponseStatus(HttpStatus.OK)
     public Simulation setCylindricalSource(@RequestBody SetCylindricalSourceRequest request){
-        Source source = new CylindricalSource(
-                request.sourceHeight(),
-                request.sourceRadius()
-        );
-        return service.setSource(request.simulationId(), source, SourceType.CYLINDRICAL);
+        cylindricalSource.setHeight(request.sourceHeight());
+        cylindricalSource.setRadius(request.sourceRadius());
+        return service.setSource(request.simulationId(), cylindricalSource, SourceType.CYLINDRICAL);
     }
 
     @PatchMapping("/source/cuboid")

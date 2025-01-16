@@ -1,8 +1,7 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
-import lombok.Data;
 
-@Data
+
 public class Direction {
     private double theta;
     private double phi;

@@ -2,14 +2,11 @@ package com.lafis.GeometricEfficiencyTool.database.domain.aperture;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
-import lombok.Builder;
 
-@Builder
-public class RectangularAperture implements Aperture {
+public class RectangularAperture extends Aperture {
 
     private double height;
     private double width;
-    private double apertureHeight;
 
     public boolean checkIfEmissionEscaped(Direction direction, Coordinate startPoint) {
         Coordinate coordinate = direction.convertToCartesianCoordinate(startPoint ,height);
@@ -19,10 +16,17 @@ public class RectangularAperture implements Aperture {
         return false;
     }
 
+//    public RectangularAperture(double height, double width, double apertureHeight) {
+//        this.height = height;
+//        this.width = width;
+//        this.apertureHeight = apertureHeight;
+//    }
+
+
     public RectangularAperture(double height, double width, double apertureHeight) {
+        super(apertureHeight);
         this.height = height;
         this.width = width;
-        this.apertureHeight = apertureHeight;
     }
 
     public double getHeight() {
@@ -33,7 +37,4 @@ public class RectangularAperture implements Aperture {
         return width;
     }
 
-    public double getApertureHeight() {
-        return apertureHeight;
-    }
 }
