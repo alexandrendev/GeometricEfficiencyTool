@@ -1,38 +1,28 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.source;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
-
-import com.lafis.GeometricEfficiencyTool.infra.random.RandomAdapter;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Random;
 
 @Component
 public class CylindricalSource extends Source{
     private double height;
     private double radius;
-    private RandomAdapter random;
+
 
     @Override
-    public Coordinate randomizeEmitionPoint(Double height) {
+    public Coordinate randomizeEmitionPoint(Double bottomHeight) {
+        Random random = new Random();
         double distance = random.nextDouble() * radius;
         double phi = random.nextDouble() * 2 * Math.PI;
 
+        double z = bottomHeight + random.nextDouble() * (height - bottomHeight);
+
+        double x = distance * Math.cos(phi);
+        double y = distance * Math.sin(phi);
+
         return new Coordinate(x, y, z);
-    }
-
-    @Autowired
-    public CylindricalSource(RandomAdapter random) {
-        this.random = random;
-    }
-
-    @PostConstruct
-    public void init() {
-        if (random == null) {
-            System.out.println("RandomAdapter NÃO foi injetado!");
-        } else {
-            System.out.println("RandomAdapter foi injetado com sucesso!");
-        }
     }
 
     public double getHeight() {

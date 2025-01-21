@@ -49,7 +49,7 @@ public class SimulationController {
     @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
     public Simulation save(@RequestBody CreateNewSimulationRequest request){
-        return service.save(request.emissions(), request.increment(), request.finalHeight());
+        return service.save(request.emissions(), request.sourceHeight());
     }
 
     @PatchMapping("/rectangular")

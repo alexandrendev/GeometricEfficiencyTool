@@ -8,12 +8,11 @@ public class CircularAperture extends Aperture {
 
 
     public boolean checkIfEmissionEscaped(Direction direction, Coordinate startPoint) {
-        Coordinate coordinate = direction.convertToCartesianCoordinate(startPoint ,height);
-        if(coordinate.getX() >= -this.radius && coordinate.getX() <= this.radius){
-            return coordinate.getY() >= -this.radius && coordinate.getY() <= this.radius;
-        }
-        return false;
+        Coordinate coordinate = direction.convertToCartesianCoordinate(startPoint, height);
+        double distanceSquared = Math.pow(coordinate.getX(), 2) + Math.pow(coordinate.getY(), 2);
+        return distanceSquared <= Math.pow(this.radius, 2);
     }
+
 
 
     public CircularAperture(double height, double radius) {

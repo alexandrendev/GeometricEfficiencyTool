@@ -12,18 +12,32 @@ public class Simulation {
     private String id;
     private GeometricContext context;
     private int emissions;
-    private List<Height> heights;
+    private double sourceHeight;
+    private int escaped;
 
 
     private SimulationStatus status;
     private ApertureType apertureType;
     private SourceType sourceType;
 
-    public List<Height> getHeights() {
-        return heights;
+    public void incrementEscaped() {
+        escaped++;
     }
-    public void setHeights(List<Height> heights) {
-        this.heights = heights;
+
+    public int getEscaped() {
+        return escaped;
+    }
+
+    public void setEscaped(int escaped) {
+        this.escaped = escaped;
+    }
+
+    public double getSourceHeight() {
+        return sourceHeight;
+    }
+
+    public void setSourceHeight(double sourceHeight) {
+        this.sourceHeight = sourceHeight;
     }
 
     public String getId() {

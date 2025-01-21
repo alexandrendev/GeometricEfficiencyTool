@@ -20,17 +20,16 @@ public class SimulationService {
 
     public void execute (Simulation simulation) {
 
-        for (Height height : simulation.getHeights()) {
-            for(int i = 0; i < simulation.getEmissions(); i++){
-                Coordinate startPoint = simulation.getContext().getSource().randomizeEmitionPoint(height.getHeight());
-                Direction direction = emit();
+        simulation.setStatus(SimulationStatus.RUNNING);
+        for(int i = 0; i < simulation.getEmissions(); i++){
+            Coordinate startPoint = simulation.getContext().getSource().randomizeEmitionPoint(simulation.getSourceHeight());
+            Direction direction = emit(startPoint, simulation.getSourceHeight());
 
-                if(simulation.getContext().getAperture().checkIfEmissionEscaped(direction, startPoint)){
-                    height.incrementEscaped();
-                }
+            if(simulation.getContext().getAperture().checkIfEmissionEscaped(direction, startPoint)){
+                simulation.incrementEscaped();
             }
         }
-
+        simulation.setStatus(SimulationStatus.FINISHED);
         save(simulation);
     }
 
@@ -38,17 +37,10 @@ public class SimulationService {
         return simulation.getContext().getAperture().checkIfEmissionEscaped(direction, point);
     }
 
-    public Simulation save(int emissions, double increment, double finalHeight){
+    public Simulation save(int emissions, double sourceHeight){
         Simulation simulation = new Simulation();
-
-        List<Height> heights = new ArrayList<>();
-        for (double height = 0; height <= finalHeight; height += increment) {
-            heights.add(new Height(height, 0));
-        }
-
         simulation.setEmissions(emissions);
-        simulation.setHeights(heights);
-
+        simulation.setSourceHeight(sourceHeight);
         simulation.setContext(new GeometricContext());
         return repository.save(simulation);
     }
