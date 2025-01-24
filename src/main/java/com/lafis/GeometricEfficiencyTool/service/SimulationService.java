@@ -18,8 +18,10 @@ public class SimulationService {
     private SimulationRepository repository;
     private final RandomAdapter rd;
 
-    public void execute (Simulation simulation) {
-
+    public boolean execute (Simulation simulation) {
+        if(simulation.getStatus() == SimulationStatus.FINISHED) {
+            return false;
+        }
         simulation.setStatus(SimulationStatus.RUNNING);
         for(int i = 0; i < simulation.getEmissions(); i++){
             Coordinate startPoint = simulation.getContext().getSource().randomizeEmitionPoint(simulation.getSourceHeight());
@@ -31,6 +33,7 @@ public class SimulationService {
         }
         simulation.setStatus(SimulationStatus.FINISHED);
         save(simulation);
+        return true;
     }
 
     private boolean hasEmissionEscaped(Simulation simulation, Coordinate point, Direction direction) {

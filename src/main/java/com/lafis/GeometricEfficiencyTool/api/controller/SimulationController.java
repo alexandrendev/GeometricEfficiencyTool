@@ -27,10 +27,15 @@ public class SimulationController {
 
     @PostMapping("/start")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Simulation> startSimulation(@RequestParam String simulationId){
+    public ResponseEntity<?> startSimulation(@RequestParam String simulationId){
         Simulation simulation = this.service.findById(simulationId);
-        this.service.execute(simulation);
-        return ResponseEntity.ok(simulation);
+        if(simulation == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        boolean response = this.service.execute(simulation);
+
+        if(response) return ResponseEntity.ok(simulation);
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("A simulação já foi executada");
     }
 
     @Autowired

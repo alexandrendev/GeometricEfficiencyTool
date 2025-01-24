@@ -16,13 +16,6 @@ public class RectangularAperture extends Aperture {
         return false;
     }
 
-//    public RectangularAperture(double height, double width, double apertureHeight) {
-//        this.height = height;
-//        this.width = width;
-//        this.apertureHeight = apertureHeight;
-//    }
-
-
     public RectangularAperture(double height, double width, double apertureHeight) {
         super(apertureHeight);
         this.height = height;
