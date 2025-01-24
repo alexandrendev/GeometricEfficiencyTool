@@ -2,12 +2,8 @@ package com.lafis.GeometricEfficiencyTool.database.domain.aperture;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-//@JsonSubTypes({
-//        @JsonSubTypes.Type(value = CircularAperture.class, name = "circular"),
-//        @JsonSubTypes.Type(value = RectangularAperture.class, name = "rectangular")
-//})
 public abstract class Aperture {
     double height;
 
@@ -18,7 +14,7 @@ public abstract class Aperture {
         this.height = height;
     }
 
-    public double getHeight() {
+    public double getDepth() {
         return height;
     }
 }

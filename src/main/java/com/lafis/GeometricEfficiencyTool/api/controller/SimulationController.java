@@ -60,7 +60,7 @@ public class SimulationController {
     @PatchMapping("/rectangular")
     @ResponseStatus(HttpStatus.OK)
     public Simulation setRectangularAperture(@RequestBody SetRectangularApertureRequest request){
-        RectangularAperture aperture = new RectangularAperture(request.height(), request.width(), request.apertureHeight());
+        RectangularAperture aperture = new RectangularAperture(request.depth(), request.width(), request.height());
         return service.setAperture(request.simulationId(), aperture, ApertureType.RECTANGULAR);
     }
 
