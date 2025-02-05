@@ -81,9 +81,15 @@ public class SimulationService {
     public List<Simulation> findAll(){
         return repository.findAll();
     }
+
+    public List<Simulation> findRunning(){
+        return repository.findByStatus(SimulationStatus.RUNNING.name());
+    }
+
     @Autowired
     public SimulationService(SimulationRepository repository, RandomAdapter randomAdapter) {
         this.repository = repository;
         this.rd = randomAdapter;
     }
+
 }

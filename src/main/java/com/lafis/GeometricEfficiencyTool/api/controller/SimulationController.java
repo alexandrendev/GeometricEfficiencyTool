@@ -103,4 +103,9 @@ public class SimulationController {
     public List<Simulation> findAll(){
         return service.findAll();
     }
+
+    @GetMapping("/running")
+    public List<Simulation> findRunningSimulations(){
+        return service.findRunning();
+    }
 }

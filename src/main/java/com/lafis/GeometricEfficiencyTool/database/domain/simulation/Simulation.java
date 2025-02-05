@@ -1,9 +1,12 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
 import java.util.List;
 
 @Document(collection = "simulation")
@@ -14,6 +17,11 @@ public class Simulation {
     private int emissions;
     private double sourceHeight;
     private int escaped;
+
+    @CreatedDate
+    private Instant created;
+    @LastModifiedDate
+    private Instant modified;
 
 
     private SimulationStatus status;
