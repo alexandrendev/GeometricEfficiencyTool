@@ -4,6 +4,7 @@ import com.lafis.GeometricEfficiencyTool.api.request.*;
 import com.lafis.GeometricEfficiencyTool.database.domain.aperture.CircularAperture;
 import com.lafis.GeometricEfficiencyTool.database.domain.aperture.RectangularAperture;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.ApertureType;
+import com.lafis.GeometricEfficiencyTool.database.domain.simulation.GeometricContext;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Simulation;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.SourceType;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.CuboidSource;
@@ -55,6 +56,15 @@ public class SimulationController {
     @ResponseStatus(HttpStatus.CREATED)
     public Simulation save(@RequestBody CreateNewSimulationRequest request){
         return service.save(request.emissions(), request.sourceHeight());
+    }
+
+    @PostMapping("/new-context")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Simulation create(@RequestBody CreateNewContextRequest request){
+        System.out.println(request);
+        GeometricContext context = new GeometricContext(request.aperture(), request.source(), request.sourceHeight());
+        Simulation simulation = new Simulation(context, request.emissions());
+        return this.service.save(simulation);
     }
 
     @PatchMapping("/rectangular")

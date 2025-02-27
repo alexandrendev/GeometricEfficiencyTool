@@ -22,6 +22,10 @@ public class RectangularAperture extends Aperture {
         this.width = width;
     }
 
+    public RectangularAperture(double height) {
+        super(height);
+    }
+
     public double getDepth() {
         return depth;
     }

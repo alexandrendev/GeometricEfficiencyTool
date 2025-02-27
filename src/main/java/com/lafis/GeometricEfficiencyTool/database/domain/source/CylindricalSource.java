@@ -25,6 +25,9 @@ public class CylindricalSource extends Source{
         return new Coordinate(x, y, z);
     }
 
+    public CylindricalSource() {
+    }
+
     public double getHeight() {
         return height;
     }

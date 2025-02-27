@@ -27,6 +27,9 @@ public class CuboidSource extends Source {
         this.depth = depth;
     }
 
+    public CuboidSource() {
+    }
+
     public double getHeight() {
         return height;
     }

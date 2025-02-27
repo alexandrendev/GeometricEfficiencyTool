@@ -20,6 +20,13 @@ public class CircularAperture extends Aperture {
         this.radius = radius;
     }
 
+    public CircularAperture(double height) {
+        super(height);
+    }
+
+    public CircularAperture() {
+    }
+
     public double getRadius() {
         return radius;
     }

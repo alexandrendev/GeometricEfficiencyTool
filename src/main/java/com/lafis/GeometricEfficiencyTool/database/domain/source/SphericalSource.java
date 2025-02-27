@@ -24,6 +24,9 @@ public class SphericalSource extends Source{
         return new Coordinate(x, y, z);
     }
 
+    public SphericalSource() {
+    }
+
     public SphericalSource(double radius) {
         this.radius = radius;
     }
