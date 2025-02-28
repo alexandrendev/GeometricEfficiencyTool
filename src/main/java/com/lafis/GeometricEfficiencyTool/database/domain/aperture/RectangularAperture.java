@@ -26,6 +26,9 @@ public class RectangularAperture extends Aperture {
         super(height);
     }
 
+    public RectangularAperture() {
+    }
+
     public double getDepth() {
         return depth;
     }
