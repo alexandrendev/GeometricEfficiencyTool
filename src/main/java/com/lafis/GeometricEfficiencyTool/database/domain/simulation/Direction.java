@@ -1,7 +1,13 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Direction {
     private double theta;
     private double phi;
@@ -11,10 +17,5 @@ public class Direction {
         double x = startPoint.getX() + Math.abs(apertureHeight - startPoint.getZ()) * Math.tan(theta) * Math.cos(phi);
         
         return new Coordinate(x, y);
-    }
-
-    public Direction(double theta, double phi) {
-        this.theta = theta;
-        this.phi = phi;
     }
 }

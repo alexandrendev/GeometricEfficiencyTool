@@ -62,8 +62,8 @@ public class SimulationController {
     @ResponseStatus(HttpStatus.CREATED)
     public Simulation create(@RequestBody CreateNewContextRequest request){
         System.out.println(request);
-        GeometricContext context = new GeometricContext(request.aperture(), request.source(), request.sourceHeight());
-        Simulation simulation = new Simulation(context, request.emissions());
+        GeometricContext context = new GeometricContext(request.aperture(), request.source());
+        Simulation simulation = new Simulation(context, request.emissions(), request.sourceHeight());
         return this.service.save(simulation);
     }
 

@@ -2,8 +2,17 @@ package com.lafis.GeometricEfficiencyTool.database.domain.aperture;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CircularAperture extends Aperture {
+    private double height;
     private double radius;
 
 
@@ -12,23 +21,4 @@ public class CircularAperture extends Aperture {
         double distanceSquared = Math.pow(coordinate.getX(), 2) + Math.pow(coordinate.getY(), 2);
         return distanceSquared <= Math.pow(this.radius, 2);
     }
-
-
-
-    public CircularAperture(double height, double radius) {
-        super(height);
-        this.radius = radius;
-    }
-
-    public CircularAperture(double height) {
-        super(height);
-    }
-
-    public CircularAperture() {
-    }
-
-    public double getRadius() {
-        return radius;
-    }
-
 }

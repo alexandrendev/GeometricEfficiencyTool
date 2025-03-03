@@ -1,11 +1,19 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.source;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+@EqualsAndHashCode(callSuper = true)
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class CylindricalSource extends Source{
     private double height;
     private double radius;
@@ -23,24 +31,5 @@ public class CylindricalSource extends Source{
         double y = distance * Math.sin(phi);
 
         return new Coordinate(x, y, z);
-    }
-
-    public CylindricalSource() {
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public double getRadius() {
-        return radius;
-    }
-
-    public void setRadius(double radius) {
-        this.radius = radius;
     }
 }

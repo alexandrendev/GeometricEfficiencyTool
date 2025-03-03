@@ -1,10 +1,17 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.source;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Random;
 
-
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SphericalSource extends Source{
     private double radius;
 
@@ -22,20 +29,5 @@ public class SphericalSource extends Source{
         z = bottomHeight + z;
 
         return new Coordinate(x, y, z);
-    }
-
-    public SphericalSource() {
-    }
-
-    public SphericalSource(double radius) {
-        this.radius = radius;
-    }
-
-    public double getRadius() {
-        return radius;
-    }
-
-    public void setRadius(double radius) {
-        this.radius = radius;
     }
 }

@@ -1,5 +1,9 @@
 package com.lafis.GeometricEfficiencyTool.database.domain.simulation;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -10,6 +14,10 @@ import java.time.Instant;
 import java.util.List;
 
 @Document(collection = "simulation")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Simulation {
     @Id
     private String id;
@@ -23,8 +31,8 @@ public class Simulation {
     @LastModifiedDate
     private Instant modified;
 
-
-    private SimulationStatus status;
+    @Builder.Default
+    private SimulationStatus status = SimulationStatus.CREATED;
     private ApertureType apertureType;
     private SourceType sourceType;
 
@@ -32,84 +40,10 @@ public class Simulation {
         escaped++;
     }
 
-    public int getEscaped() {
-        return escaped;
-    }
-
-    public void setEscaped(int escaped) {
-        this.escaped = escaped;
-    }
-
-    public double getSourceHeight() {
-        return sourceHeight;
-    }
-
-    public void setSourceHeight(double sourceHeight) {
+    public Simulation(GeometricContext context, int emissions, double sourceHeight) {
+        this.context = context;
+        this.emissions = emissions;
+        this.status = SimulationStatus.CREATED;
         this.sourceHeight = sourceHeight;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public GeometricContext getContext() {
-        return context;
-    }
-
-    public void setContext(GeometricContext context) {
-        this.context = context;
-    }
-
-    public int getEmissions() {
-        return emissions;
-    }
-
-    public void setEmissions(int emissions) {
-        this.emissions = emissions;
-    }
-
-    public SimulationStatus getStatus() {
-        return status;
-    }
-
-    public ApertureType getApertureType() {
-        return apertureType;
-    }
-
-    public SourceType getSourceType() {
-        return sourceType;
-    }
-
-    public void setStatus(SimulationStatus status) {
-        this.status = status;
-    }
-
-    public void setApertureType(ApertureType apertureType) {
-        this.apertureType = apertureType;
-    }
-
-    public void setSourceType(SourceType sourceType) {
-        this.sourceType = sourceType;
-    }
-
-    public Simulation(GeometricContext context, int emissions) {
-        this.context = context;
-        this.emissions = emissions;
-        this.status = SimulationStatus.CREATED;
-    }
-
-    public Simulation(String id, GeometricContext context, int emissions) {
-        this.id = id;
-        this.context = context;
-        this.emissions = emissions;
-        this.status = SimulationStatus.CREATED;
-    }
-
-    public Simulation() {
-        this.status = SimulationStatus.CREATED;
     }
 }

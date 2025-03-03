@@ -2,9 +2,17 @@ package com.lafis.GeometricEfficiencyTool.database.domain.aperture;
 
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Coordinate;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Direction;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RectangularAperture extends Aperture {
-
+    private double height;
     private double depth;
     private double width;
 
@@ -14,27 +22,6 @@ public class RectangularAperture extends Aperture {
             return coordinate.getY() >= -this.depth / 2 && coordinate.getY() <= this.depth / 2;
         }
         return false;
-    }
-
-    public RectangularAperture(double depth, double width, double height) {
-        super(height);
-        this.depth = depth;
-        this.width = width;
-    }
-
-    public RectangularAperture(double height) {
-        super(height);
-    }
-
-    public RectangularAperture() {
-    }
-
-    public double getDepth() {
-        return depth;
-    }
-
-    public double getWidth() {
-        return width;
     }
 
 }
