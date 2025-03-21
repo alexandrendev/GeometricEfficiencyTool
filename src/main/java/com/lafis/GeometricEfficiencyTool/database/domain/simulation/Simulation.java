@@ -10,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class Simulation {
     private int emissions;
     private double sourceHeight;
     private int escaped;
+    private String duration;
 
     @CreatedDate
     private Instant created;

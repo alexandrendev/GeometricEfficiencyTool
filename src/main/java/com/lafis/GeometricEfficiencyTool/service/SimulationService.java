@@ -9,9 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class SimulationService {
@@ -22,6 +26,7 @@ public class SimulationService {
         if(simulation.getStatus() == SimulationStatus.FINISHED) {
             return false;
         }
+        Instant start = Instant.now();
         simulation.setStatus(SimulationStatus.RUNNING);
         for(int i = 0; i < simulation.getEmissions(); i++){
             Coordinate startPoint = simulation.getContext().getSource().randomizeEmitionPoint(simulation.getSourceHeight());
@@ -31,6 +36,15 @@ public class SimulationService {
                 simulation.incrementEscaped();
             }
         }
+        Instant end = Instant.now();
+        Duration duration = Duration.between(start, end);
+
+        long seconds = duration.getSeconds();
+        long minutes = seconds / 60;
+        seconds = seconds % 60;
+        long milliseconds = duration.toMillis() % 1000;
+        simulation.setDuration(String.format("%d min %d sec %d ms", minutes, seconds, milliseconds));
+
         simulation.setStatus(SimulationStatus.FINISHED);
         save(simulation);
         return true;
@@ -79,7 +93,7 @@ public class SimulationService {
     }
 
     public List<Simulation> findAll(){
-        return repository.findAll();
+        return repository.findAll().stream().sorted(Comparator.comparing(Simulation::getCreated).reversed()).collect(Collectors.toList());
     }
 
     public List<Simulation> findRunning(){
