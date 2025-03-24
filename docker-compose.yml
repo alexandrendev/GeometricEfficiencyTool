@@ -1,6 +1,6 @@
 services:
   app:
-    image: alexandrendev/lafis-backend:1.0.1
+    image: ghcr.io/alexandrendev/lafis-backend/app-lafis:1.0.4
     container_name: application
     ports:
       - "8080:8080"
@@ -21,3 +21,17 @@ services:
 
 volumes:
   mongodb_data:
+
+#services:
+#  mongodb:
+#      image: mongo:6.0
+#      container_name: mongodb
+#      ports:
+#        - "27017:27017" # Porta padrão do MongoDB
+#      volumes:
+#        - mongodb_data:/data/db # Persistência de dados
+#      environment:
+#        MONGO_INITDB_ROOT_USERNAME: root
+#        MONGO_INITDB_ROOT_PASSWORD: example # Senha do admin
+#volumes:
+#  mongodb_data:
