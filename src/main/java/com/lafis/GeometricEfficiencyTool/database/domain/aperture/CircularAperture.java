@@ -21,4 +21,6 @@ public class CircularAperture extends Aperture {
         double distanceSquared = Math.pow(coordinate.getX(), 2) + Math.pow(coordinate.getY(), 2);
         return distanceSquared <= Math.pow(this.radius, 2);
     }
+
+
 }

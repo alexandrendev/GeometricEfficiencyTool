@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,16 +31,14 @@ public class SimulationController {
     private CuboidSource cuboidSource;
 
     @PostMapping("/start")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> startSimulation(@RequestParam String simulationId){
         Simulation simulation = this.service.findById(simulationId);
-        if(simulation == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        boolean response = this.service.execute(simulation);
-
-        if(response) return ResponseEntity.ok(simulation);
-
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("A simulação já foi executada");
+        if (simulation == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        CompletableFuture<Boolean> future = this.service.execute(simulation);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Simulação iniciada com sucesso.");
     }
 
     @Autowired

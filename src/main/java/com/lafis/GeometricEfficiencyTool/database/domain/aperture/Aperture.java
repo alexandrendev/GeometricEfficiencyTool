@@ -17,4 +17,5 @@ public abstract class Aperture {
 
     public Aperture() {
     }
+    public abstract double getHeight();
 }

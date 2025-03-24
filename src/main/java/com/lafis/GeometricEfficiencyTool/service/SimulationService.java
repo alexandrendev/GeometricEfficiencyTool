@@ -11,10 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,18 +21,28 @@ public class SimulationService {
     private SimulationRepository repository;
     private final RandomAdapter rd;
 
-    public boolean execute (Simulation simulation) {
+    @Async
+    public CompletableFuture<Boolean> execute (Simulation simulation) {
         if(simulation.getStatus() == SimulationStatus.FINISHED) {
-            return false;
+            return CompletableFuture.completedFuture(false);
         }
         Instant start = Instant.now();
         simulation.setStatus(SimulationStatus.RUNNING);
+        save(simulation);
+
         for(int i = 0; i < simulation.getEmissions(); i++){
             Coordinate startPoint = simulation.getContext().getSource().randomizeEmitionPoint(simulation.getSourceHeight());
             Direction direction = emit(startPoint, simulation.getSourceHeight());
 
             if(simulation.getContext().getAperture().checkIfEmissionEscaped(direction, startPoint)){
-                simulation.incrementEscaped();
+
+                if (simulation.getSourceHeight() < simulation.getContext().getAperture().getHeight()){
+                    simulation.incrementEscaped();
+                }
+            } else {
+                if(simulation.getSourceHeight() > simulation.getContext().getAperture().getHeight()){
+                    simulation.incrementEscaped();
+                }
             }
         }
         Instant end = Instant.now();
@@ -47,7 +56,7 @@ public class SimulationService {
 
         simulation.setStatus(SimulationStatus.FINISHED);
         save(simulation);
-        return true;
+        return CompletableFuture.completedFuture(true);
     }
 
     private boolean hasEmissionEscaped(Simulation simulation, Coordinate point, Direction direction) {
