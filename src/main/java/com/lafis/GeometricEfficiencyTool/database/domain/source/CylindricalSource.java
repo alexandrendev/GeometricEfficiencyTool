@@ -22,7 +22,7 @@ public class CylindricalSource extends Source{
     @Override
     public Coordinate randomizeEmitionPoint(Double bottomHeight) {
         Random random = new Random();
-        double distance = random.nextDouble() * radius;
+        double distance = Math.sqrt(random.nextDouble()) * radius;
         double phi = random.nextDouble() * 2 * Math.PI;
 
         double z = bottomHeight + random.nextDouble() * (height - bottomHeight);
