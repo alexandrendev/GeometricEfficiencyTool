@@ -11,10 +11,14 @@ import com.lafis.GeometricEfficiencyTool.database.domain.source.CuboidSource;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.CylindricalSource;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.SphericalSource;
+import com.lafis.GeometricEfficiencyTool.database.domain.user.User;
+import com.lafis.GeometricEfficiencyTool.service.AuthorizationService;
 import com.lafis.GeometricEfficiencyTool.service.SimulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -27,8 +31,7 @@ import java.util.stream.Collectors;
 public class SimulationController {
     private final SimulationService service;
     private CylindricalSource cylindricalSource;
-    private SphericalSource sphericalSource;
-    private CuboidSource cuboidSource;
+    private AuthorizationService authorizationService;
 
     @PostMapping("/start")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -42,9 +45,10 @@ public class SimulationController {
     }
 
     @Autowired
-    public SimulationController(SimulationService service, CylindricalSource cylindricalSource) {
+    public SimulationController(SimulationService service, CylindricalSource cylindricalSource, AuthorizationService authorizationService) {
         this.service = service;
         this.cylindricalSource = cylindricalSource;
+        this.authorizationService = authorizationService;
     }
 
     @GetMapping("/id")
@@ -57,15 +61,21 @@ public class SimulationController {
     @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
     public Simulation save(@RequestBody CreateNewSimulationRequest request){
-        return service.save(request.emissions(), request.sourceHeight());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+        User user = (User) authorizationService.loadUserByUsername(login);
+        return service.save(request.emissions(), request.sourceHeight(), user.getId());
     }
 
     @PostMapping("/new-context")
     @ResponseStatus(HttpStatus.CREATED)
     public Simulation create(@RequestBody CreateNewContextRequest request){
-        System.out.println(request);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+        User user = (User) authorizationService.loadUserByUsername(login);
+
         GeometricContext context = new GeometricContext(request.aperture(), request.source());
-        Simulation simulation = new Simulation(context, request.emissions(), request.sourceHeight());
+        Simulation simulation = new Simulation(context, request.emissions(), request.sourceHeight(),user.getId());
         return this.service.save(simulation);
     }
 
@@ -113,7 +123,10 @@ public class SimulationController {
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<Simulation> findAll(){
-        return service.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+        User user = (User) authorizationService.loadUserByUsername(login);
+        return service.findAll(user.getId());
     }
 
     @GetMapping("/running")

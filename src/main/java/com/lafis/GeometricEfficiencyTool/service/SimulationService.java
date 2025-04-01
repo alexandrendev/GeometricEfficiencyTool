@@ -63,11 +63,12 @@ public class SimulationService {
         return simulation.getContext().getAperture().checkIfEmissionEscaped(direction, point);
     }
 
-    public Simulation save(int emissions, double sourceHeight){
+    public Simulation save(int emissions, double sourceHeight, String userId){
         Simulation simulation = new Simulation();
         simulation.setEmissions(emissions);
         simulation.setSourceHeight(sourceHeight);
         simulation.setContext(new GeometricContext());
+        simulation.setUserId(userId);
         return repository.save(simulation);
     }
     public Simulation save(Simulation simulation){
@@ -101,8 +102,8 @@ public class SimulationService {
         return repository.findById(simulationId).orElse(null);
     }
 
-    public List<Simulation> findAll(){
-        return repository.findAll().stream().sorted(Comparator.comparing(Simulation::getCreated).reversed()).collect(Collectors.toList());
+    public List<Simulation> findAll(String userId){
+        return repository.findByUserId(userId).stream().sorted(Comparator.comparing(Simulation::getCreated).reversed()).collect(Collectors.toList());
     }
 
     public List<Simulation> findRunning(){

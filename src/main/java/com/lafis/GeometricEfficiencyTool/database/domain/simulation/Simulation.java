@@ -27,6 +27,7 @@ public class Simulation {
     private double sourceHeight;
     private int escaped;
     private String duration;
+    private String userId;
 
     @CreatedDate
     private Instant created;
@@ -42,10 +43,11 @@ public class Simulation {
         escaped++;
     }
 
-    public Simulation(GeometricContext context, int emissions, double sourceHeight) {
+    public Simulation(GeometricContext context, int emissions, double sourceHeight, String userId) {
         this.context = context;
         this.emissions = emissions;
         this.status = SimulationStatus.CREATED;
         this.sourceHeight = sourceHeight;
+        this.userId = userId;
     }
 }
