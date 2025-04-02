@@ -1,44 +1,40 @@
-#services:
-#  backend:
-#    image: ghcr.io/alexandrendev/lafis-backend/app-lafis:1.0.4
-#    container_name: app
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      MONGO_URI: mongodb://root:example@mongodb:27017/geometricEfficiency?authSource=admin
-#    depends_on:
-#      - mongodb
-#  frontend:
-#    image: ghcr.io/alexandrendev/lafis-frontend/app:1.0.0
-#    container_name: front
-#    ports:
-#      - "4200:4200"
-#    depends_on:
-#      - backend
-#  mongodb:
-#    image: mongo:6.0
-#    container_name: mongodb
-#    ports:
-#      - "27017:27017" # Porta padrão do MongoDB
-#    volumes:
-#      - mongodb_data:/data/db # Persistência de dados
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: example # Senha do admin
-#
-#volumes:
-#  mongodb_data:
+networks:
+  lafis-net:
+    driver: bridge
 
 services:
+  backend:
+    image: ghcr.io/alexandrendev/lafis-backend/app-lafis:1.0.5
+    container_name: backend
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_URI: mongodb://root:example@mongodb:27017/geometricEfficiency?authSource=admin
+    networks:
+      - lafis-net
+    depends_on:
+      - mongodb
+  frontend:
+    image: ghcr.io/alexandrendev/lafis-frontend/app:1.0.2
+#    ghcr.io/alexandrendev/lafis-frontend/app:1.0.1
+    container_name: front
+    ports:
+      - "4200:80"
+    networks:
+      - lafis-net
+    depends_on:
+      - backend
   mongodb:
-      image: mongo:6.0
-      container_name: mongodb
-      ports:
-        - "27017:27017" # Porta padrão do MongoDB
-      volumes:
-        - mongodb_data:/data/db # Persistência de dados
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: example # Senha do admin
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017" # Porta padrão do MongoDB
+    volumes:
+      - mongodb_data:/data/db # Persistência de dados
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example # Senha do admin
+    networks:
+      - lafis-net
 volumes:
   mongodb_data:
