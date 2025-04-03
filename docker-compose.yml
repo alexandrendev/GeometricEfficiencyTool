@@ -6,8 +6,8 @@ services:
   backend:
     image: ghcr.io/alexandrendev/lafis-backend/app-lafis:1.0.5
     container_name: backend
-    ports:
-      - "8080:8080"
+#    ports:
+#      - "8080:8080"
     environment:
       MONGO_URI: mongodb://root:example@mongodb:27017/geometricEfficiency?authSource=admin
     networks:
@@ -15,8 +15,7 @@ services:
     depends_on:
       - mongodb
   frontend:
-    image: ghcr.io/alexandrendev/lafis-frontend/app:1.0.2
-#    ghcr.io/alexandrendev/lafis-frontend/app:1.0.1
+    image: ghcr.io/alexandrendev/lafis-frontend/app:1.0.3
     container_name: front
     ports:
       - "4200:80"
@@ -28,12 +27,12 @@ services:
     image: mongo:6.0
     container_name: mongodb
     ports:
-      - "27017:27017" # Porta padrão do MongoDB
+      - "27017:27017"
     volumes:
-      - mongodb_data:/data/db # Persistência de dados
+      - mongodb_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example # Senha do admin
+      MONGO_INITDB_ROOT_PASSWORD: example
     networks:
       - lafis-net
 volumes:
