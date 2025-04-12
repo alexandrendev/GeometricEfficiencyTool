@@ -1,31 +1,52 @@
+#networks:
+#  lafis-net:
+#    driver: bridge
+#
+#services:
+#  backend:
+#    image: ghcr.io/alexandrendev/lafis-backend/app-lafis:1.0.6
+#    container_name: backend
+#    environment:
+#      MONGO_URI: mongodb://root:example@mongodb:27017/geometricEfficiency?authSource=admin
+#    networks:
+#      - lafis-net
+#    depends_on:
+#      - mongodb
+#  frontend:
+#    image: ghcr.io/alexandrendev/lafis-frontend/app:1.0.4
+#    container_name: front
+#    ports:
+#      - "4200:80"
+#    networks:
+#      - lafis-net
+#    depends_on:
+#      - backend
+#  mongodb:
+#    image: mongo:6.0
+#    container_name: mongodb
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - mongodb_data:/data/db
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: example
+#    networks:
+#      - lafis-net
+#volumes:
+#  mongodb_data:
+
+version: '3.8'
+
 networks:
   lafis-net:
     driver: bridge
 
 services:
-  backend:
-    image: ghcr.io/alexandrendev/lafis-backend/app-lafis:1.0.5
-    container_name: backend
-#    ports:
-#      - "8080:8080"
-    environment:
-      MONGO_URI: mongodb://root:example@mongodb:27017/geometricEfficiency?authSource=admin
-    networks:
-      - lafis-net
-    depends_on:
-      - mongodb
-  frontend:
-    image: ghcr.io/alexandrendev/lafis-frontend/app:1.0.3
-    container_name: front
-    ports:
-      - "4200:80"
-    networks:
-      - lafis-net
-    depends_on:
-      - backend
   mongodb:
     image: mongo:6.0
     container_name: mongodb
+    restart: unless-stopped
     ports:
       - "27017:27017"
     volumes:
@@ -33,7 +54,42 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: geometricEfficiency
     networks:
       - lafis-net
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh -u root -p example --quiet || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  backend:
+    image: ghcr.io/alexandrendev/lafis-backend/app-lafis:1.0.6
+    container_name: backend
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://root:example@mongodb:27017/geometricEfficiency?authSource=admin
+    networks:
+      - lafis-net
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    image: ghcr.io/alexandrendev/lafis-frontend/app:1.0.4
+    container_name: front
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    networks:
+      - lafis-net
+    depends_on:
+      - backend
+
 volumes:
   mongodb_data:
