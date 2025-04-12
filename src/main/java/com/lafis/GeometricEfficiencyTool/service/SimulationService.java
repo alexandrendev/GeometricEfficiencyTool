@@ -21,7 +21,7 @@ public class SimulationService {
     private SimulationRepository repository;
     private final RandomAdapter rd;
 
-    @Async
+    @Async("simulationExecutor")
     public CompletableFuture<Boolean> execute (Simulation simulation) {
         if(simulation.getStatus() == SimulationStatus.FINISHED) {
             return CompletableFuture.completedFuture(false);
@@ -34,15 +34,20 @@ public class SimulationService {
             Coordinate startPoint = simulation.getContext().getSource().randomizeEmitionPoint(simulation.getSourceHeight());
             Direction direction = emit(startPoint, simulation.getSourceHeight());
 
-            if(simulation.getContext().getAperture().checkIfEmissionEscaped(direction, startPoint)){
+            if(
+                startPoint.getZ() < simulation.getContext().getAperture().getHeight()
+                && (direction.getTheta() < Math.PI / 2)
+                && simulation.getContext().getAperture().checkIfEmissionEscaped(direction, startPoint)
+            ){
 
-                if (simulation.getSourceHeight() < simulation.getContext().getAperture().getHeight()){
-                    simulation.incrementEscaped();
-                }
-            } else {
-                if(simulation.getSourceHeight() > simulation.getContext().getAperture().getHeight()){
-                    simulation.incrementEscaped();
-                }
+                simulation.incrementEscaped();
+
+            } else if (
+                startPoint.getZ() > simulation.getContext().getAperture().getHeight()
+                &&  (direction.getTheta() > Math.PI / 2)
+                && !simulation.getContext().getAperture().checkIfEmissionEscaped(direction, startPoint)
+            ) {
+                simulation.incrementEscaped();
             }
         }
         Instant end = Instant.now();
