@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: GeometricEfficiencyTool
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+  data:
+    mongodb:
+      uri: mongodb://root:example@localhost:27017/Lafis?authSource=admin
+#  ${MONGO_URI}
+      gridfs:
+        default-timezone: America/Sao_Paulo
+user:
+  timezone: America/Sao_Paulo
+
+api:
+  security:
+    config:
+      secret: ${JWT_SECRET:my-secret-key}
+
+server:
+  port: 8081
+  error:
+    include-stacktrace: never
