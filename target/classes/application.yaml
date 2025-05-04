@@ -1,15 +1,26 @@
 spring:
   application:
     name: GeometricEfficiencyTool
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+
+      gridfs:
+        default-timezone: America/Sao_Paulo
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 springdoc:
   swagger-ui:
     path: /swagger-ui
-  data:
-    mongodb:
-      uri: mongodb://root:example@localhost:27017/Lafis?authSource=admin
-#  ${MONGO_URI}
-      gridfs:
-        default-timezone: America/Sao_Paulo
 user:
   timezone: America/Sao_Paulo
 
@@ -22,3 +33,7 @@ server:
   port: 8081
   error:
     include-stacktrace: never
+
+app:
+  base:
+    url: ${FRONT_URL:http://localhost:4200}
