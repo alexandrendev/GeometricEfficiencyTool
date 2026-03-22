@@ -1,0 +1,27 @@
+meta {
+  name: Set Circular Aperture
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/simulation/circular
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "simulationId": "{{simulationId}}",
+    "radius": 10,
+    "height": 5
+  }
+}

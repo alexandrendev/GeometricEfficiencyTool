@@ -245,7 +245,10 @@ A partir daí, é só registrar uma conta e fazer login no sistema!
 {
   "simulationId": "String",
   "sourceHeight": double,
-  "sourceRadius": double
+  "sourceRadius": double,
+  "centerX": double,
+  "centerY": double,
+  "centerZ": double
 }
 
   ```
@@ -264,7 +267,10 @@ A partir daí, é só registrar uma conta e fazer login no sistema!
   "simulationId": "String",
   "sourceHeight": double,
   "sourceWidth": double,
-  "sourceDepth": double
+  "sourceDepth": double,
+  "centerX": double,
+  "centerY": double,
+  "centerZ": double
 }
 
   ```
@@ -281,9 +287,30 @@ A partir daí, é só registrar uma conta e fazer login no sistema!
 ```json
 {
   "simulationId": "String",
-  "sourceRadius": double
+  "sourceRadius": double,
+  "centerX": double,
+  "centerY": double,
+  "centerZ": double
 }
 
+```
+
+**Respostas:**
+- `200 OK`: Retorna a simulação atualizada.
+
+---
+
+### Definir Fonte Pontual
+**PATCH** `/simulation/source/point`
+
+**Corpo da requisição:**
+```json
+{
+  "simulationId": "String",
+  "centerX": double,
+  "centerY": double,
+  "centerZ": double
+}
 ```
 
 **Respostas:**

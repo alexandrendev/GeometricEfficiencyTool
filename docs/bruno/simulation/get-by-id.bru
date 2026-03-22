@@ -1,0 +1,15 @@
+meta {
+  name: Get Simulation By Id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/simulation/id?simulationId={{simulationId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

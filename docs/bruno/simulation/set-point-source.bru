@@ -1,0 +1,29 @@
+meta {
+  name: Set Point Source
+  type: http
+  seq: 11
+}
+
+patch {
+  url: {{baseUrl}}/simulation/source/point
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: {{token}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "simulationId": "{{simulationId}}",
+    "centerX": 1,
+    "centerY": 2,
+    "centerZ": 3
+  }
+}

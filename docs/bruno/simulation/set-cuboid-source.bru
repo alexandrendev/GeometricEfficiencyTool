@@ -1,0 +1,31 @@
+meta {
+  name: Set Cuboid Source
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{baseUrl}}/simulation/source/cuboid
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "simulationId": "{{simulationId}}",
+    "sourceHeight": 10,
+    "sourceWidth": 4,
+    "sourceDepth": 4,
+    "centerX": 0,
+    "centerY": 0,
+    "centerZ": 5
+  }
+}

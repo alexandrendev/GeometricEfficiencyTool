@@ -16,15 +16,22 @@ public class CuboidSource extends Source {
     private double height;
     private double width;
     private double depth;
+    private double centerX;
+    private double centerY;
+    private double centerZ;
+
+    public CuboidSource(double height, double width, double depth) {
+        this(height, width, depth, 0, 0, 0);
+    }
 
     public Coordinate randomizeEmitionPoint(Double bottomHeight) {
         Random random = new Random();
 
-        double x = (random.nextDouble() * 2 - 1) * width / 2;
+        double x = centerX + (random.nextDouble() * 2 - 1) * width / 2;
 
-        double y = (random.nextDouble() * 2 - 1) * depth / 2;
+        double y = centerY + (random.nextDouble() * 2 - 1) * depth / 2;
 
-        double z = bottomHeight + random.nextDouble() * height;
+        double z = centerZ + (random.nextDouble() * 2 - 1) * height / 2;
 
         return new Coordinate(x, y, z);
     }

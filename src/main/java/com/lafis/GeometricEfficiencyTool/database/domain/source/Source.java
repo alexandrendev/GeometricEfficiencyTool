@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CuboidSource.class, name = "cuboid"),
         @JsonSubTypes.Type(value = CylindricalSource.class, name = "cylindrical"),
-        @JsonSubTypes.Type(value = SphericalSource.class, name = "spherical")
+        @JsonSubTypes.Type(value = SphericalSource.class, name = "spherical"),
+        @JsonSubTypes.Type(value = PointSource.class, name = "point")
 })
 
 @Data

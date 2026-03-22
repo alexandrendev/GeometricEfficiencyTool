@@ -17,6 +17,13 @@ import java.util.Random;
 public class CylindricalSource extends Source{
     private double height;
     private double radius;
+    private double centerX;
+    private double centerY;
+    private double centerZ;
+
+    public CylindricalSource(double height, double radius) {
+        this(height, radius, 0, 0, 0);
+    }
 
 
     @Override
@@ -25,10 +32,10 @@ public class CylindricalSource extends Source{
         double distance = Math.sqrt(random.nextDouble()) * radius;
         double phi = random.nextDouble() * 2 * Math.PI;
 
-        double z = bottomHeight + random.nextDouble() * (height - bottomHeight);
+        double z = centerZ + (random.nextDouble() * 2 - 1) * height / 2;
 
-        double x = distance * Math.cos(phi);
-        double y = distance * Math.sin(phi);
+        double x = centerX + distance * Math.cos(phi);
+        double y = centerY + distance * Math.sin(phi);
 
         return new Coordinate(x, y, z);
     }

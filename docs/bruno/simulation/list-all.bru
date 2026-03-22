@@ -1,0 +1,15 @@
+meta {
+  name: List All Simulations
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/simulation/all
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

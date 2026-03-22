@@ -1,0 +1,15 @@
+meta {
+  name: List Running Simulations
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/simulation/running
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

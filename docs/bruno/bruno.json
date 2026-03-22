@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Geometric Efficiency Tool",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

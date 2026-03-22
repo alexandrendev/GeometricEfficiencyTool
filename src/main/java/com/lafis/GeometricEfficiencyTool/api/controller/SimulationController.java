@@ -9,6 +9,7 @@ import com.lafis.GeometricEfficiencyTool.database.domain.simulation.Simulation;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.SourceType;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.CuboidSource;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.CylindricalSource;
+import com.lafis.GeometricEfficiencyTool.database.domain.source.PointSource;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.SphericalSource;
 import com.lafis.GeometricEfficiencyTool.database.domain.user.User;
@@ -98,6 +99,9 @@ public class SimulationController {
     public Simulation setCylindricalSource(@RequestBody SetCylindricalSourceRequest request){
         cylindricalSource.setHeight(request.sourceHeight());
         cylindricalSource.setRadius(request.sourceRadius());
+        cylindricalSource.setCenterX(request.centerX());
+        cylindricalSource.setCenterY(request.centerY());
+        cylindricalSource.setCenterZ(request.centerZ());
         return service.setSource(request.simulationId(), cylindricalSource, SourceType.CYLINDRICAL);
     }
 
@@ -107,7 +111,10 @@ public class SimulationController {
         Source source = new CuboidSource(
                 request.sourceHeight(),
                 request.sourceWidth(),
-                request.sourceWidth()
+                request.sourceDepth(),
+                request.centerX(),
+                request.centerY(),
+                request.centerZ()
         );
         return service.setSource(request.simulationId(), source, SourceType.CUBOID);
     }
@@ -115,9 +122,23 @@ public class SimulationController {
     @PatchMapping("/source/spherical")
     public Simulation setSphericalSource(@RequestBody SetSphericalSourceRequest request){
         Source source = new SphericalSource(
-                request.sourceRadius()
+                request.sourceRadius(),
+                request.centerX(),
+                request.centerY(),
+                request.centerZ()
         );
         return service.setSource(request.simulationId(), source, SourceType.SPHERICAL);
+    }
+
+    @PatchMapping("/source/point")
+    @ResponseStatus(HttpStatus.OK)
+    public Simulation setPointSource(@RequestBody SetPointSourceRequest request){
+        Source source = new PointSource(
+                request.centerX(),
+                request.centerY(),
+                request.centerZ()
+        );
+        return service.setSource(request.simulationId(), source, SourceType.POINT);
     }
 
     @GetMapping("/all")

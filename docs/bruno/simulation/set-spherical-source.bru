@@ -1,0 +1,29 @@
+meta {
+  name: Set Spherical Source
+  type: http
+  seq: 10
+}
+
+patch {
+  url: {{baseUrl}}/simulation/source/spherical
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "simulationId": "{{simulationId}}",
+    "sourceRadius": 5,
+    "centerX": 0,
+    "centerY": 0,
+    "centerZ": 0
+  }
+}

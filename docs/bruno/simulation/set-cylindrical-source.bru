@@ -1,0 +1,30 @@
+meta {
+  name: Set Cylindrical Source
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/simulation/source/cylindrical
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "simulationId": "{{simulationId}}",
+    "sourceHeight": 10,
+    "sourceRadius": 3,
+    "centerX": 0,
+    "centerY": 0,
+    "centerZ": 5
+  }
+}

@@ -1,10 +1,7 @@
 package com.lafis.GeometricEfficiencyTool.api.request;
 
-public record SetCuboidSourceRequest(
+public record SetPointSourceRequest(
         String simulationId,
-        double sourceHeight,
-        double sourceWidth,
-        double sourceDepth,
         double centerX,
         double centerY,
         double centerZ
