@@ -17,43 +17,43 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
       MONGO_INITDB_DATABASE: geometricEfficiency
-#    networks:
-#      - lafis-net
+    networks:
+      - lafis-net
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh -u root -p example --quiet || exit 1
       interval: 30s
       timeout: 10s
       retries: 3
 
-#  backend:
-#    image: ghcr.io/alexandrendev/lafis-backend/app-lafis:1.0.6
-#    container_name: backend
+  backend:
+   image: ghcr.io/alexandrendev/lafis-backend/app-lafis:1.0.6
+   container_name: backend
+   restart: unless-stopped
+   environment:
+     MONGO_URI: mongodb://root:example@mongodb:27017/geometricEfficiency?authSource=admin
+   networks:
+     - lafis-net
+   ports:
+     - "8080:8080"
+   depends_on:
+     mongodb:
+       condition: service_healthy
+   healthcheck:
+     test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+     interval: 30s
+     timeout: 10s
+     retries: 3
+
+#  frontend:
+#    image: ghcr.io/alexandrendev/lafis-frontend/app:1.0.4
+#    container_name: front
 #    restart: unless-stopped
-#    environment:
-#      MONGO_URI: mongodb://root:example@mongodb:27017/geometricEfficiency?authSource=admin
+#    ports:
+#      - "4200:80"
 #    networks:
 #      - lafis-net
-#    ports:
-#      - "8080:8080"
 #    depends_on:
-#      mongodb:
-#        condition: service_healthy
-#    healthcheck:
-#      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
-#      interval: 30s
-#      timeout: 10s
-#      retries: 3
-
-  # frontend:
-  #   image: ghcr.io/alexandrendev/lafis-frontend/app:1.0.4
-  #   container_name: front
-  #   restart: unless-stopped
-  #   ports:
-  #     - "4200:80"
-  #   networks:
-  #     - lafis-net
-  #   depends_on:
-  #     - backend
+#      - backend
 
 volumes:
   mongodb_data:

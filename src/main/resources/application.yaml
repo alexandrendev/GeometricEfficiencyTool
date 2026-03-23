@@ -3,7 +3,7 @@ spring:
     name: GeometricEfficiencyTool
   data:
     mongodb:
-      uri: ${MONGO_URI}
+      uri: mongodb://root:example@localhost:27017/geometricEfficiency?authSource=admin
 
       gridfs:
         default-timezone: America/Sao_Paulo
@@ -30,7 +30,7 @@ api:
       secret: ${JWT_SECRET:my-secret-key}
 
 server:
-  port: 8081
+  port: 8080
   error:
     include-stacktrace: never
 
