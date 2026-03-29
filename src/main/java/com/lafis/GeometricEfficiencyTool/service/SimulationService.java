@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -113,6 +114,21 @@ public class SimulationService {
 
     public List<Simulation> findRunning(){
         return repository.findByStatus(SimulationStatus.RUNNING.name());
+    }
+
+    public double calculateSolidAngle(Simulation simulation) {
+        Objects.requireNonNull(simulation, "Simulation cannot be null");
+
+        if (simulation.getEmissions() <= 0) {
+            throw new IllegalArgumentException("Simulation emissions must be greater than zero");
+        }
+
+        return (4 * Math.PI * simulation.getEscaped()) / simulation.getEmissions();
+    }
+
+    public double calculateSolidAngleError(Simulation simulation) {
+        double solidAngle = calculateSolidAngle(simulation);
+        return 1.96 * Math.sqrt((solidAngle * (4 * Math.PI - solidAngle)) / simulation.getEmissions());
     }
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.lafis.GeometricEfficiencyTool.api.controller;
 
 import com.lafis.GeometricEfficiencyTool.api.request.*;
+import com.lafis.GeometricEfficiencyTool.api.response.SimulationResponse;
 import com.lafis.GeometricEfficiencyTool.database.domain.aperture.CircularAperture;
 import com.lafis.GeometricEfficiencyTool.database.domain.aperture.RectangularAperture;
 import com.lafis.GeometricEfficiencyTool.database.domain.simulation.ApertureType;
@@ -22,7 +23,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -53,9 +53,12 @@ public class SimulationController {
     }
 
     @GetMapping("/id")
-    public ResponseEntity<Simulation> findById(@RequestParam String simulationId){
+    public ResponseEntity<SimulationResponse> findById(@RequestParam String simulationId){
         Simulation simulation = this.service.findById(simulationId);
-        return ResponseEntity.ok(simulation);
+        if (simulation == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(toResponse(simulation));
     }
 
 
@@ -143,15 +146,43 @@ public class SimulationController {
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public List<Simulation> findAll(){
+    public List<SimulationResponse> findAll(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
         User user = (User) authorizationService.loadUserByUsername(login);
-        return service.findAll(user.getId());
+        return service.findAll(user.getId())
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/running")
-    public List<Simulation> findRunningSimulations(){
-        return service.findRunning();
+    public List<SimulationResponse> findRunningSimulations(){
+        return service.findRunning()
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    private SimulationResponse toResponse(Simulation simulation) {
+        double solidAngle = service.calculateSolidAngle(simulation);
+        double solidAngleError = service.calculateSolidAngleError(simulation);
+
+        return new SimulationResponse(
+                simulation.getId(),
+                simulation.getContext(),
+                simulation.getEmissions(),
+                simulation.getSourceHeight(),
+                simulation.getEscaped(),
+                simulation.getDuration(),
+                simulation.getUserId(),
+                simulation.getCreated(),
+                simulation.getModified(),
+                simulation.getStatus(),
+                simulation.getApertureType(),
+                simulation.getSourceType(),
+                solidAngle,
+                solidAngleError
+        );
     }
 }
