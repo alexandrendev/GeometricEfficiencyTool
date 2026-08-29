@@ -26,12 +26,13 @@ public class SphericalSource extends Source{
     public Coordinate randomizeEmitionPoint(Double bottomHeight) {
         Random r = new Random();
         double theta = r.nextDouble() * 2 * Math.PI;
-        double phi = r.nextDouble() * Math.PI;
+        double cosPhi = 2 * r.nextDouble() - 1;
+        double sinPhi = Math.sqrt(1 - cosPhi * cosPhi);
         double radialDistance = Math.cbrt(r.nextDouble()) * radius;
 
-        double x = centerX + radialDistance * Math.sin(phi) * Math.cos(theta);
-        double y = centerY + radialDistance * Math.sin(phi) * Math.sin(theta);
-        double z = centerZ + radialDistance * Math.cos(phi);
+        double x = centerX + radialDistance * sinPhi * Math.cos(theta);
+        double y = centerY + radialDistance * sinPhi * Math.sin(theta);
+        double z = centerZ + radialDistance * cosPhi;
 
         return new Coordinate(x, y, z);
     }

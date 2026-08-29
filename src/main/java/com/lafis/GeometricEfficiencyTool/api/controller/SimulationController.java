@@ -86,14 +86,14 @@ public class SimulationController {
     @PatchMapping("/rectangular")
     @ResponseStatus(HttpStatus.OK)
     public Simulation setRectangularAperture(@RequestBody SetRectangularApertureRequest request){
-        RectangularAperture aperture = new RectangularAperture(request.depth(), request.width(), request.height());
+        RectangularAperture aperture = new RectangularAperture(request.height(), request.depth(), request.width());
         return service.setAperture(request.simulationId(), aperture, ApertureType.RECTANGULAR);
     }
 
     @PatchMapping("/circular")
     @ResponseStatus(HttpStatus.OK)
     public Simulation setCircularAperture(@RequestBody SetCircularApertureRequest request){
-        CircularAperture aperture = new CircularAperture(request.radius(), request.height());
+        CircularAperture aperture = new CircularAperture(request.height(), request.radius());
         return service.setAperture(request.simulationId(), aperture, ApertureType.CIRCULAR);
     }
 
