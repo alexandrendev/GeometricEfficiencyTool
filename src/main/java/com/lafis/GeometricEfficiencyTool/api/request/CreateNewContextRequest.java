@@ -6,6 +6,7 @@ import com.lafis.GeometricEfficiencyTool.database.domain.simulation.SourceType;
 import com.lafis.GeometricEfficiencyTool.database.domain.source.Source;
 
 public record CreateNewContextRequest(
+        String name,
         int emissions,
         double sourceHeight,
         ApertureType apertureType,

@@ -68,7 +68,7 @@ public class SimulationController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
         User user = (User) authorizationService.loadUserByUsername(login);
-        return service.save(request.emissions(), request.sourceHeight(), user.getId());
+        return service.save(request.name(), request.emissions(), request.sourceHeight(), user.getId());
     }
 
     @PostMapping("/new-context")
@@ -80,6 +80,7 @@ public class SimulationController {
 
         GeometricContext context = new GeometricContext(request.aperture(), request.source());
         Simulation simulation = new Simulation(context, request.emissions(), request.sourceHeight(),user.getId());
+        simulation.setName(service.normalizeName(request.name()));
         return this.service.save(simulation);
     }
 
@@ -170,6 +171,7 @@ public class SimulationController {
 
         return new SimulationResponse(
                 simulation.getId(),
+                simulation.getName(),
                 simulation.getContext(),
                 simulation.getEmissions(),
                 simulation.getSourceHeight(),

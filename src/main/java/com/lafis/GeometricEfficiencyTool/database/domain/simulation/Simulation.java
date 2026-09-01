@@ -22,6 +22,7 @@ import java.util.List;
 public class Simulation {
     @Id
     private String id;
+    private String name;
     private GeometricContext context;
     private int emissions;
     private double sourceHeight;

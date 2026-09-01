@@ -9,6 +9,7 @@ import java.time.Instant;
 
 public record SimulationResponse(
         String id,
+        String name,
         GeometricContext context,
         int emissions,
         double sourceHeight,

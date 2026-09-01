@@ -1,0 +1,29 @@
+@startuml
+skinparam Padding 2
+
+start
+:Recupera as informações da simulação no banco de dados;
+:Inicia a simulação;
+if (Simulação já executada?) then (sim)
+	:Interrompe a execução;
+	stop
+else (não)
+	repeat
+
+		:**(1):** Gera o ponto de origem da emissão;
+		:**(2):** Sorteia a direção da emissão;
+		:**(3):** Verifica se escapou pela abertura;
+		if (Passou pela abertura?) then (sim)
+			:Contabiliza a vazão;
+		else (não)
+			:Próxima emissão;
+		endif
+	repeat while (Repetir para todas as emissões?) is (não)
+
+	->sim;
+	:calcula o tempo da simulação;
+	:salva os resultados;
+endif
+stop
+
+@enduml

@@ -17,7 +17,7 @@ public class RectangularAperture extends Aperture {
     private double width;
 
     public boolean checkIfEmissionEscaped(Direction direction, Coordinate startPoint) {
-        Coordinate coordinate = direction.convertToCartesianCoordinate(startPoint , depth);
+        Coordinate coordinate = direction.convertToCartesianCoordinate(startPoint, height);
         if(coordinate.getX() >= -this.width/2 && coordinate.getX() <= this.width/2){
             return coordinate.getY() >= -this.depth / 2 && coordinate.getY() <= this.depth / 2;
         }

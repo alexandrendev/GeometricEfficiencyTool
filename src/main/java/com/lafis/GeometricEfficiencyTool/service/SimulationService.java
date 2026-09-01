@@ -69,13 +69,21 @@ public class SimulationService {
         return simulation.getContext().getAperture().checkIfEmissionEscaped(direction, point);
     }
 
-    public Simulation save(int emissions, double sourceHeight, String userId){
+    public Simulation save(String name, int emissions, double sourceHeight, String userId){
         Simulation simulation = new Simulation();
+        simulation.setName(normalizeName(name));
         simulation.setEmissions(emissions);
         simulation.setSourceHeight(sourceHeight);
         simulation.setContext(new GeometricContext());
         simulation.setUserId(userId);
         return repository.save(simulation);
+    }
+
+    public String normalizeName(String name) {
+        if (name == null || name.isBlank()) {
+            return null;
+        }
+        return name.trim().replaceAll("\\s+", " ");
     }
     public Simulation save(Simulation simulation){
         return repository.save(simulation);
@@ -98,7 +106,8 @@ public class SimulationService {
     }
 
     public Direction emit(Coordinate startPoint, double height){
-        double theta = rd.nextDouble() * Math.PI;
+        double cosTheta = 2 * rd.nextDouble() - 1;
+        double theta = Math.acos(cosTheta);
         double phi = rd.nextDouble() * 2 * Math.PI;
 
         return new Direction(theta, phi);
